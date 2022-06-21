@@ -1,13 +1,9 @@
 import mongoose from 'mongoose'
+import { NewUser } from './types'
 
 const { Schema } = mongoose
 
-interface IUser {
-  username: string
-  password: string
-}
-
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<NewUser>({
   username: {
     type: String,
     required: true,

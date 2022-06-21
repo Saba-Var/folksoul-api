@@ -26,6 +26,7 @@ const createUser = () => {
 
         if (username.length < 3)
           throw new Error('username should be 3 characters long')
+
         for (let i = 0; i < username.length; i++) {
           if (username[i] === username[i].toUpperCase()) {
             throw new Error(
