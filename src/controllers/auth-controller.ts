@@ -1,12 +1,8 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import User from '../models/User.js'
-import {
-  RequestBody,
-  Response,
-  AuthRequestBody,
-  AuthResponseBody,
-} from './types'
+import { AuthRequestBody, AuthResponseBody } from './types'
+import { RequestBody, Response } from '../types'
 
 export const authentication = async (
   req: RequestBody<AuthRequestBody>,
