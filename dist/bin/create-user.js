@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const readline_1 = __importDefault(require("readline"));
-const mongo_js_1 = __importDefault(require("../config/mongo.js"));
-const User_js_1 = __importDefault(require("../models/User.js"));
+const mongo_1 = __importDefault(require("../config/mongo"));
+const User_1 = __importDefault(require("../models/User"));
 const readLine = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -25,32 +25,36 @@ const createUser = () => {
     dotenv_1.default.config();
     (() => __awaiter(void 0, void 0, void 0, function* () {
         let mongoose = null;
-        mongoose = yield (0, mongo_js_1.default)();
-        const username = process.env.USER_USERNAME;
-        let password;
-        if (process.env.USER_PASSWORD && username)
-            password = yield bcryptjs_1.default.hash(process.env.USER_PASSWORD, 12);
-        const validUsername = String(username).match(/[a-z]/);
-        if (validUsername && password.length >= 3 && username.length >= 3) {
-            const newUser = yield new User_js_1.default({
+        mongoose = yield (0, mongo_1.default)();
+        try {
+            const username = process.env.USER_USERNAME;
+            let password;
+            if (process.env.USER_PASSWORD && username) {
+                if (process.env.USER_PASSWORD.length < 3)
+                    throw new Error('Password should be 3 characters long');
+                password = yield bcryptjs_1.default.hash(process.env.USER_PASSWORD, 12);
+                if (username.length < 3)
+                    throw new Error('username should be 3 characters long');
+                for (let i = 0; i < username.length; i++) {
+                    if (username[i] === username[i].toUpperCase()) {
+                        throw new Error('Username should include only lowercase letters and symbols');
+                    }
+                }
+            }
+            const newUser = yield User_1.default.create({
                 username,
                 password,
             });
-            try {
-                yield newUser.save();
-                console.log("user created successfully");
-            }
-            catch (error) {
-                console.log(error.message);
-            }
+            console.log('user created successfully');
         }
-        else
-            console.log("Enter valid email");
+        catch (error) {
+            console.log(error.message);
+        }
         yield mongoose.connection.close();
     }))();
 };
-readLine.question(`email: `, (email) => {
-    process.env.USER_USERNAME = email;
+readLine.question(`username: `, (username) => {
+    process.env.USER_USERNAME = username;
     readLine.question(`password: `, (password) => {
         process.env.USER_PASSWORD = password;
         readLine.close();

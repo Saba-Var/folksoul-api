@@ -1,52 +1,59 @@
-import dotenv from "dotenv";
-import bcrypt from "bcryptjs";
-import readline from "readline";
-import connectToMongo from "../config/mongo.js";
-import User from "../models/User.js";
+import dotenv from 'dotenv'
+import bcrypt from 'bcryptjs'
+import readline from 'readline'
+import connectToMongo from '../config/mongo'
+import User from '../models/User'
 
 const readLine = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-});
+})
 
 const createUser = () => {
-  dotenv.config();
-  (async () => {
-    let mongoose = null;
+  dotenv.config()
+  ;(async () => {
+    let mongoose = null
+    mongoose = await connectToMongo()
 
-    mongoose = await connectToMongo();
+    try {
+      const username = process.env.USER_USERNAME
+      let password: string | undefined
 
-    const username = process.env.USER_USERNAME;
-    let password;
+      if (process.env.USER_PASSWORD && username) {
+        if (process.env.USER_PASSWORD.length < 3)
+          throw new Error('Password should be 3 characters long')
+        password = await bcrypt.hash(process.env.USER_PASSWORD, 12)
 
-    if (process.env.USER_PASSWORD && username)
-      password = await bcrypt.hash(process.env.USER_PASSWORD, 12);
+        if (username.length < 3)
+          throw new Error('username should be 3 characters long')
+        for (let i = 0; i < username.length; i++) {
+          if (username[i] === username[i].toUpperCase()) {
+            throw new Error(
+              'Username should include only lowercase letters and symbols'
+            )
+          }
+        }
+      }
 
-    const validUsername = String(username).match(/[a-z]/);
-
-    if (validUsername && password.length >= 3 && username.length >= 3) {
-      const newUser = await new User({
+      const newUser = await User.create({
         username,
         password,
-      });
+      })
 
-      try {
-        await newUser.save();
-        console.log("user created successfully");
-      } catch (error) {
-        console.log(error.message);
-      }
-    } else console.log("Enter valid email");
+      console.log('user created successfully')
+    } catch (error: any) {
+      console.log(error.message)
+    }
 
-    await mongoose.connection.close();
-  })();
-};
+    await mongoose.connection.close()
+  })()
+}
 
-readLine.question(`email: `, (email) => {
-  process.env.USER_USERNAME = email;
+readLine.question(`username: `, (username) => {
+  process.env.USER_USERNAME = username
   readLine.question(`password: `, (password) => {
-    process.env.USER_PASSWORD = password;
-    readLine.close();
-    createUser();
-  });
-});
+    process.env.USER_PASSWORD = password
+    readLine.close()
+    createUser()
+  })
+})

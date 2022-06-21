@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import connectToMongo from './config/mongo.js'
+import connectToMongo from './config/mongo'
 
 const server = express()
 

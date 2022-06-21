@@ -27,7 +27,7 @@ const connect = async () => {
       : generateAtlasMongoURL()
 
     return mongoose.connect(connectionURL)
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(e.message)
   }
 }
