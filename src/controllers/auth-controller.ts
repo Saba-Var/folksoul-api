@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import User from '../models/User.js'
+import User from '../models/User'
 import { AuthRequestBody, AuthResponseBody } from './types'
 import { RequestBody, Response } from '../types'
 

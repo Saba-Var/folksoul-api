@@ -12,26 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authentication = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const User_1 = __importDefault(require("../models/User"));
-const authentication = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, password } = req.body;
-        const currentUser = yield User_1.default.findOne({ username });
-        if (!currentUser) {
-            return res.status(404).json({ message: 'User not exist' });
+        const secretText = process.env.ACCESS_TOKEN_SECRET;
+        if (secretText) {
+            const { authorization } = req.headers;
+            if (!authorization)
+                return res.status(401).json({
+                    message: 'missing authorization header',
+                });
+            const token = authorization.trim().split(' ')[1];
+            let verified;
+            verified = jsonwebtoken_1.default.verify(token, secretText);
+            if (verified)
+                return next();
+            return res.status(401).json({ message: 'User is not authorized' });
         }
-        const isMatch = yield bcryptjs_1.default.compare(password, currentUser.password);
-        if (isMatch && process.env.ACCESS_TOKEN_SECRET) {
-            const accessToken = jsonwebtoken_1.default.sign({ username, password }, process.env.ACCESS_TOKEN_SECRET);
-            return res.status(200).json({ token: accessToken });
-        }
-        return res.status(404).json({ message: 'Credentials are incorrect!' });
     }
     catch (error) {
-        return res.status(404).json(error.message);
+        console.log(error);
+        return res.status(403).json({ message: 'Token is not valid' });
     }
 });
-exports.authentication = authentication;
+exports.default = authMiddleware;
