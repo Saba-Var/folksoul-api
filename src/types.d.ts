@@ -2,9 +2,9 @@ export interface RequestBody<ReqBody> extends Express.Request {
   body: ReqBody
 }
 
-type JsonType = Send<ResBody, this>
+type JsonType = Send<{ message: string }, this>
 
-export interface Response<ResBody> extends Express.Response {
+export interface Response extends Express.Response {
   status: (number: number) => { json: JsonType }
   json: JsonType
 }

@@ -1,11 +1,11 @@
 import { validationResult } from 'express-validator'
-import { Response } from '../types'
-import { ValidateResult, ValidateResultReq } from './types'
+import { Response, Next } from '../types'
+import { ValidateResultReq } from './types'
 
 const validateRequestSchema = (
   req: ValidateResultReq,
-  res: Response<ValidateResult>,
-  next: () => void
+  res: Response,
+  next: Next
 ) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {

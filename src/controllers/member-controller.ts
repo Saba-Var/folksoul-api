@@ -1,5 +1,5 @@
 import Member from '../models/Member'
-import { RequestBody } from '../types'
+import { RequestBody, Response } from '../types'
 import { AddMemberBody } from './types'
 
 const checkIfGeorgian = (text: string) => {
@@ -11,7 +11,10 @@ const checkIfGeorgian = (text: string) => {
   return true
 }
 
-export const addMember = async (req: RequestBody<AddMemberBody>, res: any) => {
+export const addMember = async (
+  req: RequestBody<AddMemberBody>,
+  res: Response
+) => {
   try {
     const { name, instrument, orbitLength, color, biography } = req.body
     const newMemberInfo: any = {
@@ -43,7 +46,18 @@ export const addMember = async (req: RequestBody<AddMemberBody>, res: any) => {
 
     return res
       .status(201)
-      .send({ message: 'Success! Member saved successfully' })
+      .json({ message: 'Success! Member saved successfully' })
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
+export const getAllMembers = async (req: {}, res: Response) => {
+  try {
+    const members = await Member.find().select('-__v')
+
+    if (members.length === 0) return res.status(200).json([])
+    return res.status(200).json(members)
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
   }

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addMember = void 0;
+exports.getAllMembers = exports.addMember = void 0;
 const Member_1 = __importDefault(require("../models/Member"));
 const checkIfGeorgian = (text) => {
     const geoRegex = /[\u10A0-\u10FF]/;
@@ -50,10 +50,22 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield Member_1.default.create(newMemberInfo);
         return res
             .status(201)
-            .send({ message: 'Success! Member saved successfully' });
+            .json({ message: 'Success! Member saved successfully' });
     }
     catch (error) {
         return res.status(500).json({ message: error.message });
     }
 });
 exports.addMember = addMember;
+const getAllMembers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const members = yield Member_1.default.find().select('-__v');
+        if (members.length === 0)
+            return res.status(200).json([]);
+        return res.status(200).json(members);
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+});
+exports.getAllMembers = getAllMembers;

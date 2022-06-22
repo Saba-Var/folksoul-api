@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import User from '../models/User'
-import { AuthRequestBody, AuthResponseBody } from './types'
+import { AuthRequestBody } from './types'
 import { RequestBody, Response } from '../types'
 
 export const authentication = async (
   req: RequestBody<AuthRequestBody>,
-  res: Response<AuthResponseBody>
+  res: Response
 ) => {
   try {
     const { username, password } = req.body
@@ -26,7 +26,7 @@ export const authentication = async (
       return res.status(200).json({ token: accessToken })
     }
     return res.status(404).json({ message: 'Credentials are incorrect!' })
-  } catch (error: any | unknown) {
+  } catch (error: any) {
     return res.status(404).json(error.message)
   }
 }
