@@ -4,14 +4,16 @@ import connectToMongo from './config/mongo'
 import authRouter from './routes/auth'
 import memberRouter from './routes/member'
 import { authMiddleware } from './middlewares/index'
+import cors from 'cors'
+
 const server = express()
 
 dotenv.config()
 connectToMongo()
 
 server.use(express.json())
-
 server.use(authRouter)
+server.use(cors())
 
 server.use(authMiddleware)
 

@@ -52,12 +52,40 @@ export const addMember = async (
   }
 }
 
-export const getAllMembers = async (req: {}, res: Response) => {
+export const getAllMembers = async (
+  req: {
+    query: {
+      page: string
+    }
+  },
+  res: Response
+) => {
   try {
-    const members = await Member.find().select('-__v')
+    let page: number
+    if (req.query.page) page = +req.query.page
+    else page = 1
+
+    const membersPerPage = 3
+
+    const totalMembers = await Member.find().countDocuments()
+
+    const members = await Member.find()
+      .select('-__v')
+      .skip((page - 1) * membersPerPage)
+      .limit(membersPerPage)
 
     if (members.length === 0) return res.status(200).json([])
-    return res.status(200).json(members)
+
+    const paginationInfo = {
+      currentPage: page,
+      hasNextPage: membersPerPage * page < totalMembers,
+      hasPreviousPage: page > 1,
+      nextPage: page + 1,
+      previousPage: page - 1,
+      lastPage: Math.ceil(totalMembers / membersPerPage),
+    }
+
+    return res.status(200).json({ members, paginationInfo })
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
   }

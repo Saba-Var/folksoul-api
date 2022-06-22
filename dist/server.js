@@ -9,11 +9,13 @@ const mongo_1 = __importDefault(require("./config/mongo"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const member_1 = __importDefault(require("./routes/member"));
 const index_1 = require("./middlewares/index");
+const cors_1 = __importDefault(require("cors"));
 const server = (0, express_1.default)();
 dotenv_1.default.config();
 (0, mongo_1.default)();
 server.use(express_1.default.json());
 server.use(auth_1.default);
+server.use((0, cors_1.default)());
 server.use(index_1.authMiddleware);
 server.use(member_1.default);
 server.listen(process.env.SERVER_PORT, () => {
