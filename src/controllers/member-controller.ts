@@ -1,6 +1,7 @@
 import Member from '../models/Member'
 import { RequestBody, Response } from '../types'
 import { AddMemberBody } from './types'
+import mongoose from 'mongoose'
 
 const checkIfGeorgian = (text: string) => {
   const geoRegex = /[\u10A0-\u10FF]/
@@ -30,7 +31,7 @@ export const addMember = async (
         const param = newMemberInfo[key]
         if (!checkIfGeorgian(param))
           return res.status(400).json({
-            message: `Property '${key}' must include only Georgian characters!`,
+            message: `'${key}' მხოლოდ წართულ ასოებ უნდა შეიცავდეს!`,
           })
       }
     }
@@ -40,13 +41,11 @@ export const addMember = async (
     if (existingMember)
       return res
         .status(400)
-        .json({ message: `Member '${name}' already exists!` })
+        .json({ message: `ბენდის წევრი უკვე არის '${name}'!` })
 
     await Member.create(newMemberInfo)
 
-    return res
-      .status(201)
-      .json({ message: 'Success! Member saved successfully' })
+    return res.status(201).json({ message: 'ბენდს წევრი წარმატებით დაემატა!' })
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
   }
@@ -81,6 +80,21 @@ export const getAllMembers = async (
     }
 
     return res.status(200).json({ members, paginationInfo })
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
+export const deleteMember = async (
+  req: RequestBody<{ id: string }>,
+  res: Response
+) => {
+  try {
+    const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
+    const member = await Member.findOne(id)
+    if (!member) return res.status(404).json({ message: 'წევრი ვერ მოიძებნა' })
+    await Member.deleteOne(id)
+    return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' })
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
   }

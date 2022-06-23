@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllMembers = exports.addMember = void 0;
+exports.deleteMember = exports.getAllMembers = exports.addMember = void 0;
 const Member_1 = __importDefault(require("../models/Member"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const checkIfGeorgian = (text) => {
     const geoRegex = /[\u10A0-\u10FF]/;
     const word = text.replace(/\s/g, '');
@@ -38,7 +39,7 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 const param = newMemberInfo[key];
                 if (!checkIfGeorgian(param))
                     return res.status(400).json({
-                        message: `Property '${key}' must include only Georgian characters!`,
+                        message: `'${key}' მხოლოდ წართულ ასოებ უნდა შეიცავდეს!`,
                     });
             }
         }
@@ -46,11 +47,9 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (existingMember)
             return res
                 .status(400)
-                .json({ message: `Member '${name}' already exists!` });
+                .json({ message: `ბენდის წევრი უკვე არის '${name}'!` });
         yield Member_1.default.create(newMemberInfo);
-        return res
-            .status(201)
-            .json({ message: 'Success! Member saved successfully' });
+        return res.status(201).json({ message: 'ბენდს წევრი წარმატებით დაემატა!' });
     }
     catch (error) {
         return res.status(500).json({ message: error.message });
@@ -82,3 +81,17 @@ const getAllMembers = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getAllMembers = getAllMembers;
+const deleteMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = { _id: new mongoose_1.default.Types.ObjectId(req.body.id) };
+        const member = yield Member_1.default.findOne(id);
+        if (!member)
+            return res.status(404).json({ message: 'წევრი ვერ მოიძებნა' });
+        yield Member_1.default.deleteOne(id);
+        return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' });
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+});
+exports.deleteMember = deleteMember;
