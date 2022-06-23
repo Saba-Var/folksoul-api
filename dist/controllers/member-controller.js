@@ -73,12 +73,7 @@ const getAllMembers = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (members.length === 0)
             return res.status(200).json([]);
         const paginationInfo = {
-            currentPage: page,
-            hasNextPage: membersPerPage * page < totalMembers,
-            hasPreviousPage: page > 1,
-            nextPage: page + 1,
-            previousPage: page - 1,
-            lastPage: Math.ceil(totalMembers / membersPerPage),
+            totalMembers: totalMembers,
         };
         return res.status(200).json({ members, paginationInfo });
     }
