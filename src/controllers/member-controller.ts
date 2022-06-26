@@ -3,11 +3,16 @@ import { RequestBody, Response } from '../types'
 import { AddMemberBody } from './types'
 import mongoose from 'mongoose'
 
-const checkIfGeorgian = (text: string) => {
+const georgianLan = (text: string, key: string) => {
   const geoRegex = /[\u10A0-\u10FF]/
   const word = text.replace(/\s/g, '')
+
   for (let i = 0; i < word.length; i++) {
-    if (!geoRegex.test(word[i])) return false
+    const char = word[i]
+    const isGeorgian = geoRegex.test(char)
+    if (key !== 'biography' && !isGeorgian) return false
+    if (!isGeorgian && !/[-!$%^&*()_+|~=`{}[\]:";'<>?,./]/.test(char) && !+char)
+      return false
   }
   return true
 }
@@ -29,7 +34,7 @@ export const addMember = async (
     for (const key in newMemberInfo) {
       if (key !== 'orbitLength' && key !== 'color') {
         const param = newMemberInfo[key]
-        if (!checkIfGeorgian(param))
+        if (!georgianLan(param, key))
           return res.status(400).json({
             message: `'${key}' მხოლოდ წართულ ასოებ უნდა შეიცავდეს!`,
           })
@@ -73,7 +78,22 @@ export const getAllMembers = async (
       .skip((page - 1) * membersPerPage)
       .limit(membersPerPage)
 
-    if (members.length === 0) return res.status(200).json([])
+    if (members.length === 0)
+      return res.status(200).json({
+        members: [
+          {
+            biography: '',
+            color: '',
+            instrument: '',
+            name: '',
+            orbitLength: 0,
+            _id: '',
+          },
+        ],
+        paginationInfo: {
+          totalMembers: 0,
+        },
+      })
 
     const paginationInfo = {
       totalMembers: totalMembers,

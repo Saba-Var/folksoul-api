@@ -15,11 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMember = exports.getAllMembers = exports.addMember = void 0;
 const Member_1 = __importDefault(require("../models/Member"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const checkIfGeorgian = (text) => {
+const georgianLan = (text, key) => {
     const geoRegex = /[\u10A0-\u10FF]/;
     const word = text.replace(/\s/g, '');
     for (let i = 0; i < word.length; i++) {
-        if (!geoRegex.test(word[i]))
+        const char = word[i];
+        const isGeorgian = geoRegex.test(char);
+        if (key !== 'biography' && !isGeorgian)
+            return false;
+        if (!isGeorgian && !/[-!$%^&*()_+|~=`{}[\]:";'<>?,./]/.test(char) && !+char)
             return false;
     }
     return true;
@@ -37,7 +41,7 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         for (const key in newMemberInfo) {
             if (key !== 'orbitLength' && key !== 'color') {
                 const param = newMemberInfo[key];
-                if (!checkIfGeorgian(param))
+                if (!georgianLan(param, key))
                     return res.status(400).json({
                         message: `'${key}' მხოლოდ წართულ ასოებ უნდა შეიცავდეს!`,
                     });
@@ -70,7 +74,21 @@ const getAllMembers = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .skip((page - 1) * membersPerPage)
             .limit(membersPerPage);
         if (members.length === 0)
-            return res.status(200).json([]);
+            return res.status(200).json({
+                members: [
+                    {
+                        biography: '',
+                        color: '',
+                        instrument: '',
+                        name: '',
+                        orbitLength: 0,
+                        _id: '',
+                    },
+                ],
+                paginationInfo: {
+                    totalMembers: 0,
+                },
+            });
         const paginationInfo = {
             totalMembers: totalMembers,
         };
