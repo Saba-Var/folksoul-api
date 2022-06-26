@@ -148,3 +148,19 @@ export const changeMember = async (
       .json({ message: `'${req.body.name}' უკვე არის ბენდის წევრი!` })
   }
 }
+
+export const getOneMember = async (
+  req: RequestBody<{ id: string }>,
+  res: Response
+) => {
+  try {
+    const { id } = req.body
+    const currentMember = await Member.findById(id).select('-__v')
+
+    if (!currentMember)
+      return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
+    return res.status(200).json(currentMember)
+  } catch (error) {
+    return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' })
+  }
+}
