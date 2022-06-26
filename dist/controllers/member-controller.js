@@ -43,14 +43,14 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 const param = newMemberInfo[key];
                 if (!georgianLan(param, key))
                     return res.status(400).json({
-                        message: `'${key}' მხოლოდ წართულ ასოებ უნდა შეიცავდეს!`,
+                        message: `'${key}' მხოლოდ ქართულ ასოებს უნდა შეიცავდეს!`,
                     });
             }
         }
         const existingMember = yield Member_1.default.findOne({ name });
         if (existingMember)
             return res
-                .status(400)
+                .status(409)
                 .json({ message: `ბენდის წევრი უკვე არის '${name}'!` });
         yield Member_1.default.create(newMemberInfo);
         return res.status(201).json({ message: 'ბენდს წევრი წარმატებით დაემატა!' });

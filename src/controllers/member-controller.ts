@@ -36,7 +36,7 @@ export const addMember = async (
         const param = newMemberInfo[key]
         if (!georgianLan(param, key))
           return res.status(400).json({
-            message: `'${key}' მხოლოდ წართულ ასოებ უნდა შეიცავდეს!`,
+            message: `'${key}' მხოლოდ ქართულ ასოებს უნდა შეიცავდეს!`,
           })
       }
     }
@@ -45,7 +45,7 @@ export const addMember = async (
 
     if (existingMember)
       return res
-        .status(400)
+        .status(409)
         .json({ message: `ბენდის წევრი უკვე არის '${name}'!` })
 
     await Member.create(newMemberInfo)
