@@ -3,6 +3,7 @@ import {
   addMember,
   getAllMembers,
   deleteMember,
+  changeMember,
 } from '../controllers/member-controller'
 import idSchema from '../schemas/id-schema'
 import memberDetailsSchema from '../schemas/member-details-schema'
@@ -19,6 +20,13 @@ router.post(
   memberDetailsSchema,
   validateRequestSchema,
   addMember
+)
+
+router.put(
+  '/change-member',
+  memberDetailsSchema,
+  validateRequestSchema,
+  changeMember
 )
 
 export default router

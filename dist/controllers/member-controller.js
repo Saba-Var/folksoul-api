@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMember = exports.getAllMembers = exports.addMember = void 0;
+exports.changeMember = exports.deleteMember = exports.getAllMembers = exports.addMember = void 0;
 const Member_1 = __importDefault(require("../models/Member"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const georgianLan = (text, key) => {
@@ -51,7 +51,7 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (existingMember)
             return res
                 .status(409)
-                .json({ message: `ბენდის წევრი უკვე არის '${name}'!` });
+                .json({ message: `'${name}' უკვე არის ბენდის წევრი!` });
         yield Member_1.default.create(newMemberInfo);
         return res.status(201).json({ message: 'ბენდს წევრი წარმატებით დაემატა!' });
     }
@@ -113,3 +113,26 @@ const deleteMember = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.deleteMember = deleteMember;
+const changeMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id, name, instrument, color, biography, orbitLength } = req.body;
+        const member = yield Member_1.default.findById(id).select('-__v');
+        if (!member)
+            res.status(404).json({
+                message: 'წევრი ვერ მოიძებნა',
+            });
+        member.name = name;
+        member.instrument = instrument;
+        member.color = color;
+        member.orbitLength = orbitLength;
+        member.biography = biography;
+        yield member.save();
+        return res.status(200).json({ message: 'წევრის ინფორმაცია შეიცვალა!' });
+    }
+    catch (err) {
+        return res
+            .status(409)
+            .json({ message: `'${req.body.name}' უკვე არის ბენდის წევრი!` });
+    }
+});
+exports.changeMember = changeMember;

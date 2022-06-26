@@ -1,6 +1,6 @@
 import Member from '../models/Member'
 import { RequestBody, Response } from '../types'
-import { AddMemberBody } from './types'
+import { AddMemberBody, changeMemberBody } from './types'
 import mongoose from 'mongoose'
 
 const georgianLan = (text: string, key: string) => {
@@ -46,7 +46,7 @@ export const addMember = async (
     if (existingMember)
       return res
         .status(409)
-        .json({ message: `ბენდის წევრი უკვე არის '${name}'!` })
+        .json({ message: `'${name}' უკვე არის ბენდის წევრი!` })
 
     await Member.create(newMemberInfo)
 
@@ -117,5 +117,34 @@ export const deleteMember = async (
     return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' })
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
+  }
+}
+
+export const changeMember = async (
+  req: RequestBody<changeMemberBody>,
+  res: Response
+) => {
+  try {
+    const { id, name, instrument, color, biography, orbitLength } = req.body
+
+    const member: any = await Member.findById(id).select('-__v')
+
+    if (!member)
+      res.status(404).json({
+        message: 'წევრი ვერ მოიძებნა',
+      })
+
+    member.name = name
+    member.instrument = instrument
+    member.color = color
+    member.orbitLength = orbitLength
+    member.biography = biography
+
+    await member.save()
+    return res.status(200).json({ message: 'წევრის ინფორმაცია შეიცვალა!' })
+  } catch (err) {
+    return res
+      .status(409)
+      .json({ message: `'${req.body.name}' უკვე არის ბენდის წევრი!` })
   }
 }

@@ -12,4 +12,5 @@ const router = express_1.default.Router();
 router.get('/all-members', member_controller_1.getAllMembers);
 router.delete('/delete-member', id_schema_1.default, index_1.validateRequestSchema, member_controller_1.deleteMember);
 router.post('/add-member', member_details_schema_1.default, index_1.validateRequestSchema, member_controller_1.addMember);
+router.put('/change-member', member_details_schema_1.default, index_1.validateRequestSchema, member_controller_1.changeMember);
 exports.default = router;
