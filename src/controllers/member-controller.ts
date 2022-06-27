@@ -163,12 +163,15 @@ const multerStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split('/')[1]
-    cb(null, `member-${req.body.id}.${ext}`)
+    cb(null, `${file.originalname}-${new Date().toISOString()}.${ext}`)
   },
 })
 
 const multerFilter = async (req: any, file: any, cb: any) => {
   const currentMember = await Member.findById(req.body.id)
+
+  if (currentMember?.image) deleteFile(`public/${currentMember?.image}`)
+
   if (file.mimetype.startsWith('image') && currentMember) {
     cb(null, true)
   } else if (file.mimetype.startsWith('image')) {
