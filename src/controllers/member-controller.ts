@@ -176,11 +176,12 @@ const multerStorage = multer.diskStorage({
   },
 })
 
-const multerFilter = (req: any, file: any, cb: any) => {
-  if (file.mimetype.startsWith('image')) {
+const multerFilter = async (req: any, file: any, cb: any) => {
+  const currentMember = await Member.findById(req.body.id)
+  if (file.mimetype.startsWith('image') && currentMember) {
     cb(null, true)
-  } else {
-    req.body.fileValidationError = 'Upload only image files!'
+  } else if (file.mimetype.startsWith('image')) {
+    req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
     return cb(null, false, req.fileValidationError)
   }
 }
@@ -198,20 +199,20 @@ export const uploadImage = async (
 ) => {
   try {
     const currentMember = await Member.findById(req.body.id)
-
     if (!currentMember)
       return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
 
     if (req.body.fileValidationError)
-      return res.status(422).json({ message: 'Upload only image files!' })
+      return res.status(422).json({ message: 'ატვირთეთ მხოლოდ სურათი!' })
 
-    if (req.file) currentMember.image = req.file.path.substring(7)
-
-    await currentMember.save()
-
-    return res.status(201).json({
-      message: 'ბენდის წევრის ავატარი წარმატებით აიტვირთა!',
-    })
+    if (req.file) {
+      currentMember.image = req.file.path.substring(7)
+      await currentMember.save()
+      return res.status(201).json({
+        message: 'ბენდის წევრის ავატარი წარმატებით აიტვირთა!',
+      })
+    } else
+      return res.status(422).json({ message: 'ატვირთეთ ბენდის წევრის ავატარი' })
   } catch (error) {
     return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' })
   }

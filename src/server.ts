@@ -17,7 +17,7 @@ server.use(authRouter)
 server.use(cors())
 
 server.use(express.static('public'))
-// server.use(authMiddleware)
+server.use(authMiddleware)
 
 server.use(memberRouter)
 

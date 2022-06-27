@@ -152,7 +152,7 @@ const getOneMember = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 exports.getOneMember = getOneMember;
 const multerStorage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/img/members');
+        cb(null, 'public/images/');
     },
     filename: (req, file, cb) => {
         const ext = file.mimetype.split('/')[1];
@@ -175,13 +175,14 @@ const upload = (0, multer_1.default)({
 exports.uploadMemberPhoto = upload.single('photo');
 const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id } = req.body;
-        const currentMember = yield Member_1.default.findById(id);
+        const currentMember = yield Member_1.default.findById(req.body.id);
         if (!currentMember)
             return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' });
-        if (req.body.fileValidationError) {
-            return res.status(400).json({ message: 'Upload only image files!' });
-        }
+        if (req.body.fileValidationError)
+            return res.status(422).json({ message: 'Upload only image files!' });
+        if (req.file)
+            currentMember.image = req.file.path.substring(7);
+        yield currentMember.save();
         return res.status(201).json({
             message: 'ბენდის წევრის ავატარი წარმატებით აიტვირთა!',
         });

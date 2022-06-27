@@ -16,6 +16,7 @@ dotenv_1.default.config();
 server.use(express_1.default.json());
 server.use(auth_1.default);
 server.use((0, cors_1.default)());
+server.use(express_1.default.static('public'));
 server.use(index_1.authMiddleware);
 server.use(member_1.default);
 server.listen(process.env.SERVER_PORT, () => {

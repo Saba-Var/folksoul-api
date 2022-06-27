@@ -32,6 +32,10 @@ const memberSchema = new Schema({
         type: String,
         required: true,
     },
+    image: {
+        type: String,
+        required: false,
+    },
 });
 const Member = mongoose_1.default.model('member', memberSchema);
 exports.default = Member;
