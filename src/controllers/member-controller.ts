@@ -2,6 +2,7 @@ import Member from '../models/Member'
 import { RequestBody, Response } from '../types'
 import { AddMemberBody, changeMemberBody } from './types'
 import mongoose from 'mongoose'
+import deleteFile from '../util/file'
 import multer from 'multer'
 
 const georgianLan = (text: string, key: string) => {
@@ -116,6 +117,7 @@ export const deleteMember = async (
     const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
     const member = await Member.findOne(id)
     if (!member) return res.status(404).json({ message: 'წევრი ვერ მოიძებნა' })
+    if (member.image) deleteFile(`public/${member.image}`)
     await Member.deleteOne(id)
     return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' })
   } catch (error: any) {
