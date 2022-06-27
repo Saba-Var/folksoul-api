@@ -5,6 +5,8 @@ import {
   deleteMember,
   changeMember,
   getOneMember,
+  uploadImage,
+  uploadMemberPhoto,
 } from '../controllers/member-controller'
 import idSchema from '../schemas/id-schema'
 import memberDetailsSchema from '../schemas/member-details-schema'
@@ -30,6 +32,14 @@ router.put(
   memberDetailsSchema,
   validateRequestSchema,
   changeMember
+)
+
+router.patch(
+  '/upload-image',
+  uploadMemberPhoto,
+  idSchema,
+  validateRequestSchema,
+  uploadImage
 )
 
 export default router

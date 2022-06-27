@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeMember = exports.deleteMember = exports.getAllMembers = exports.addMember = void 0;
+exports.uploadImage = exports.uploadMemberPhoto = exports.getOneMember = exports.changeMember = exports.deleteMember = exports.getAllMembers = exports.addMember = void 0;
 const Member_1 = __importDefault(require("../models/Member"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const multer_1 = __importDefault(require("multer"));
 const georgianLan = (text, key) => {
     const geoRegex = /[\u10A0-\u10FF]/;
     const word = text.replace(/\s/g, '');
@@ -136,3 +137,57 @@ const changeMember = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.changeMember = changeMember;
+const getOneMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.body;
+        const currentMember = yield Member_1.default.findById(id).select('-__v');
+        if (!currentMember)
+            return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' });
+        return res.status(200).json(currentMember);
+    }
+    catch (error) {
+        return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' });
+    }
+});
+exports.getOneMember = getOneMember;
+const multerStorage = multer_1.default.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/img/members');
+    },
+    filename: (req, file, cb) => {
+        const ext = file.mimetype.split('/')[1];
+        cb(null, `member-${req.body.id}.${ext}`);
+    },
+});
+const multerFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith('image')) {
+        cb(null, true);
+    }
+    else {
+        req.body.fileValidationError = 'Upload only image files!';
+        return cb(null, false, req.fileValidationError);
+    }
+};
+const upload = (0, multer_1.default)({
+    storage: multerStorage,
+    fileFilter: multerFilter,
+});
+exports.uploadMemberPhoto = upload.single('photo');
+const uploadImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.body;
+        const currentMember = yield Member_1.default.findById(id);
+        if (!currentMember)
+            return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' });
+        if (req.body.fileValidationError) {
+            return res.status(400).json({ message: 'Upload only image files!' });
+        }
+        return res.status(201).json({
+            message: 'ბენდის წევრის ავატარი წარმატებით აიტვირთა!',
+        });
+    }
+    catch (error) {
+        return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' });
+    }
+});
+exports.uploadImage = uploadImage;

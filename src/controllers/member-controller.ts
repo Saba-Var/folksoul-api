@@ -2,6 +2,7 @@ import Member from '../models/Member'
 import { RequestBody, Response } from '../types'
 import { AddMemberBody, changeMemberBody } from './types'
 import mongoose from 'mongoose'
+import multer from 'multer'
 
 const georgianLan = (text: string, key: string) => {
   const geoRegex = /[\u10A0-\u10FF]/
@@ -160,6 +161,53 @@ export const getOneMember = async (
     if (!currentMember)
       return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
     return res.status(200).json(currentMember)
+  } catch (error) {
+    return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' })
+  }
+}
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/img/members')
+  },
+  filename: (req, file, cb) => {
+    const ext = file.mimetype.split('/')[1]
+    cb(null, `member-${req.body.id}.${ext}`)
+  },
+})
+
+const multerFilter = (req: any, file: any, cb: any) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true)
+  } else {
+    req.body.fileValidationError = 'Upload only image files!'
+    return cb(null, false, req.fileValidationError)
+  }
+}
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+})
+
+export const uploadMemberPhoto = upload.single('photo')
+
+export const uploadImage = async (
+  req: RequestBody<{ id: string; fileValidationError: any }>,
+  res: Response
+) => {
+  try {
+    const currentMember = await Member.findById(req.body.id)
+
+    if (!currentMember)
+      return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
+
+    if (req.body.fileValidationError)
+      return res.status(400).json({ message: 'Upload only image files!' })
+
+    return res.status(201).json({
+      message: 'ბენდის წევრის ავატარი წარმატებით აიტვირთა!',
+    })
   } catch (error) {
     return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' })
   }
