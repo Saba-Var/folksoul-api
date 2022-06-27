@@ -5,6 +5,7 @@ import authRouter from './routes/auth'
 import memberRouter from './routes/member'
 import { authMiddleware } from './middlewares/index'
 import cors from 'cors'
+import path from 'path'
 
 const server = express()
 
@@ -15,7 +16,8 @@ server.use(express.json())
 server.use(authRouter)
 server.use(cors())
 
-server.use(authMiddleware)
+server.use(express.static('public'))
+// server.use(authMiddleware)
 
 server.use(memberRouter)
 

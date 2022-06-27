@@ -9,4 +9,5 @@ export type NewMember = {
   orbitLength: number
   color: string
   biography: string
+  image?: string
 }

@@ -34,6 +34,11 @@ const memberSchema = new Schema<NewMember>({
     type: String,
     required: true,
   },
+
+  image: {
+    type: String,
+    required: false,
+  },
 })
 
 const Member = mongoose.model('member', memberSchema)

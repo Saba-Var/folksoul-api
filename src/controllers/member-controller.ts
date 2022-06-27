@@ -168,7 +168,7 @@ export const getOneMember = async (
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/img/members')
+    cb(null, 'public/images/')
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split('/')[1]
@@ -203,7 +203,11 @@ export const uploadImage = async (
       return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
 
     if (req.body.fileValidationError)
-      return res.status(400).json({ message: 'Upload only image files!' })
+      return res.status(422).json({ message: 'Upload only image files!' })
+
+    if (req.file) currentMember.image = req.file.path.substring(7)
+
+    await currentMember.save()
 
     return res.status(201).json({
       message: 'ბენდის წევრის ავატარი წარმატებით აიტვირთა!',
