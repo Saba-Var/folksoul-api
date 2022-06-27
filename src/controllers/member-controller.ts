@@ -3,21 +3,8 @@ import { RequestBody, Response } from '../types'
 import { AddMemberBody, changeMemberBody } from './types'
 import mongoose from 'mongoose'
 import deleteFile from '../util/file'
+import georgianLan from '../util/georgianLan'
 import multer from 'multer'
-
-const georgianLan = (text: string, key: string) => {
-  const geoRegex = /[\u10A0-\u10FF]/
-  const word = text.replace(/\s/g, '')
-
-  for (let i = 0; i < word.length; i++) {
-    const char = word[i]
-    const isGeorgian = geoRegex.test(char)
-    if (key !== 'biography' && !isGeorgian) return false
-    if (!isGeorgian && !/[-!$%^&*()_+|~=`{}[\]:";'<>?,./]/.test(char) && !+char)
-      return false
-  }
-  return true
-}
 
 export const addMember = async (
   req: RequestBody<AddMemberBody>,
