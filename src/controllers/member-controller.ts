@@ -74,10 +74,12 @@ export const getAllMembers = async (
 
     const totalMembers = await Member.find().countDocuments()
 
-    const members = await Member.find()
-      .select('-__v')
-      .skip((page - 1) * membersPerPage)
-      .limit(membersPerPage)
+    const members = req.query.page
+      ? await Member.find()
+          .select('-__v')
+          .skip((page - 1) * membersPerPage)
+          .limit(membersPerPage)
+      : await Member.find().select('-__v')
 
     if (members.length === 0)
       return res.status(200).json({
