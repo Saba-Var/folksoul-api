@@ -40,3 +40,9 @@ export type LinkReqBody = {
   linkName: string
   url: string
 }
+
+export type ChangeLinkReqBody = {
+  id: string
+  linkName: string
+  url: string
+}

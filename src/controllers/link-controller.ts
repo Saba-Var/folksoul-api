@@ -1,5 +1,5 @@
 import { Response, RequestBody } from '../types'
-import { LinkReqBody, Id } from './types'
+import { LinkReqBody, Id, ChangeLinkReqBody } from './types'
 import deleteFile from '../util/file'
 import Link from '../models/Link'
 import mongoose from 'mongoose'
@@ -54,5 +54,35 @@ export const deleteLink = async (req: RequestBody<Id>, res: Response) => {
     return res.status(200).json({ message: 'სოციალური ბმული წაიშალა!' })
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
+  }
+}
+
+export const changeLink = async (
+  req: RequestBody<ChangeLinkReqBody>,
+  res: Response
+) => {
+  try {
+    const { id, linkName, url } = req.body
+
+    const link: any = await Link.findById(
+      new mongoose.Types.ObjectId(id)
+    ).select('-__v')
+
+    if (!link)
+      return res.status(404).json({
+        message: 'სოციალური ბმული ვერ მოიძებნა',
+      })
+
+    link.linkName = linkName
+    link.url = url
+
+    await link.save()
+    return res
+      .status(200)
+      .json({ message: 'სოციალური ბმულის ინფორმაცია შეიცვალა' })
+  } catch (err) {
+    return res
+      .status(409)
+      .json({ message: `'${req.body.linkName}' უკვე დამატებულია!` })
   }
 }

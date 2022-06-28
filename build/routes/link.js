@@ -22,5 +22,6 @@ const router = _express.default.Router();
 router.get('/all-links', _linkController.getAllLinks);
 router.delete('/delete-link', _idSchema.default, _index.validateRequestSchema, _linkController.deleteLink);
 router.post('/add-social-link', _socialLinkSchema.default, _index.validateRequestSchema, _linkController.addLink);
+router.put('/change-link', _idSchema.default, _socialLinkSchema.default, _index.validateRequestSchema, _linkController.changeLink);
 var _default = router;
 exports.default = _default;

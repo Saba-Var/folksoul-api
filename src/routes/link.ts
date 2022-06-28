@@ -6,6 +6,7 @@ import {
   addLink,
   getAllLinks,
   deleteLink,
+  changeLink,
 } from '../controllers/link-controller'
 
 const router = express.Router()
@@ -19,6 +20,14 @@ router.post(
   socialLinkSchema,
   validateRequestSchema,
   addLink
+)
+
+router.put(
+  '/change-link',
+  idSchema,
+  socialLinkSchema,
+  validateRequestSchema,
+  changeLink
 )
 
 export default router

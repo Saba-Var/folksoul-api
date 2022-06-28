@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllLinks = exports.deleteLink = exports.addLink = void 0;
+exports.getAllLinks = exports.deleteLink = exports.changeLink = exports.addLink = void 0;
 
 var _file = _interopRequireDefault(require("../util/file"));
 
@@ -77,3 +77,29 @@ const deleteLink = async (req, res) => {
 };
 
 exports.deleteLink = deleteLink;
+
+const changeLink = async (req, res) => {
+  try {
+    const {
+      id,
+      linkName,
+      url
+    } = req.body;
+    const link = await _Link.default.findById(new _mongoose.default.Types.ObjectId(id)).select('-__v');
+    if (!link) return res.status(404).json({
+      message: 'სოციალური ბმული ვერ მოიძებნა'
+    });
+    link.linkName = linkName;
+    link.url = url;
+    await link.save();
+    return res.status(200).json({
+      message: 'სოციალური ბმულის ინფორმაცია შეიცვალა'
+    });
+  } catch (err) {
+    return res.status(409).json({
+      message: `'${req.body.linkName}' უკვე დამატებულია!`
+    });
+  }
+};
+
+exports.changeLink = changeLink;
