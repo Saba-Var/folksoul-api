@@ -148,14 +148,19 @@ const multerStorage = multer_1.default.diskStorage({
     },
 });
 const multerFilter = (req, file, cb) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentMember = yield Member_1.default.findById(req.body.id);
-    if (currentMember === null || currentMember === void 0 ? void 0 : currentMember.image)
-        (0, file_1.default)(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`);
-    if (file.mimetype.startsWith('image') && currentMember)
-        cb(null, true);
-    else if (!file.mimetype.startsWith('image')) {
-        req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!';
-        return cb(null, false, req.fileValidationError);
+    try {
+        const currentMember = yield Member_1.default.findById(req.body.id);
+        if (currentMember === null || currentMember === void 0 ? void 0 : currentMember.image)
+            (0, file_1.default)(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`);
+        if (file.mimetype.startsWith('image') && currentMember)
+            cb(null, true);
+        else if (!file.mimetype.startsWith('image')) {
+            req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!';
+            return cb(null, false, req.fileValidationError);
+        }
+    }
+    catch (error) {
+        req.body.fileValidationError = 'სურათი ვერ აიტვირთა!';
     }
 });
 const upload = (0, multer_1.default)({

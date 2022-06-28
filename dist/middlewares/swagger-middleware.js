@@ -11,6 +11,6 @@ const swaggerMiddleware = () => {
         customSiteTitle: 'Admin Panel API Specs',
     };
     const swaggerDocument = yamljs_1.default.load('./src/config/swagger.yaml');
-    return [swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument, options)];
+    return swagger_ui_express_1.default.setup(swaggerDocument, options);
 };
 exports.default = swaggerMiddleware;

@@ -2,7 +2,6 @@ import { check } from 'express-validator'
 
 const memberDetailsSchema = [
   check('name')
-    .exists()
     .trim()
     .isLength({
       min: 3,

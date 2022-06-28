@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_validator_1 = require("express-validator");
 const memberDetailsSchema = [
     (0, express_validator_1.check)('name')
-        .exists()
         .trim()
         .isLength({
         min: 3,

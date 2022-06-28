@@ -1,9 +1,7 @@
 import fs from 'fs'
 
-const deleteFile = (path: string) => {
-  fs.unlink(path, (err) => {
-    if (err) throw err
-  })
+const deleteFile = async (path: string) => {
+  fs.unlinkSync(path)
 }
 
 export default deleteFile

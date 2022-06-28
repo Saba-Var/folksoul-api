@@ -4,6 +4,8 @@ import Member from '../models/Member'
 import deleteFile from '../util/file'
 import mongoose from 'mongoose'
 import multer from 'multer'
+import path from 'path'
+import fs from 'fs'
 import {
   AddMemberBody,
   ChangeMemberBody,
@@ -166,14 +168,33 @@ const multerStorage = multer.diskStorage({
 })
 
 const multerFilter = async (req: any, file: any, cb: any) => {
-  const currentMember = await Member.findById(req.body.id)
+  try {
+    if (req.body.id.length !== 24) {
+      req.body.fileValidationError = 'id უნდა შეიცავდეს 24 სიმბოლოს'
+      return cb(null, false, req.fileValidationError)
+    }
 
-  if (currentMember?.image) deleteFile(`public/${currentMember?.image}`)
+    const currentMember = await Member.findById(req.body.id)
+    if (!currentMember) {
+      req.body.fileValidationError = 'ბენდის წევრი ვერ მოიძებნა'
+      return cb(null, false, req.fileValidationError)
+    }
 
-  if (file.mimetype.startsWith('image') && currentMember) cb(null, true)
-  else if (!file.mimetype.startsWith('image')) {
-    req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
-    return cb(null, false, req.fileValidationError)
+    if (file.mimetype.startsWith('image') && currentMember) {
+      if (
+        fs.existsSync(`public/${currentMember?.image}`) &&
+        currentMember.image
+      ) {
+        deleteFile(`public/${currentMember?.image}`)
+      }
+      cb(null, true)
+    }
+    if (!file.mimetype.startsWith('image')) {
+      req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
+      return cb(null, false, req.fileValidationError)
+    }
+  } catch (error: any) {
+    req.body.fileValidationError = 'სურათი ვერ აიტვირთა!'
   }
 }
 
