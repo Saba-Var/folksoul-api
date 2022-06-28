@@ -1,9 +1,11 @@
 import socialLinkSchema from '../schemas/social-link-schema'
 import { validateRequestSchema } from '../middlewares/index'
-import { addLink } from '../controllers/link-controller'
+import { addLink, getAllLinks } from '../controllers/link-controller'
 import express from 'express'
 
 const router = express.Router()
+
+router.get('/all-links', getAllLinks)
 
 router.post(
   '/add-social-link',

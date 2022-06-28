@@ -17,6 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const router = _express.default.Router();
 
+router.get('/all-links', _linkController.getAllLinks);
 router.post('/add-social-link', _socialLinkSchema.default, _index.validateRequestSchema, _linkController.addLink);
 var _default = router;
 exports.default = _default;

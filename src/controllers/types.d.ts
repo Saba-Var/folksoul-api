@@ -5,13 +5,15 @@ type AuthBody = {
 
 export type AuthRequestBody = AuthBody
 
+export type AuthResponseBody = AuthBody
+
+export type ImageReqBody = { id: string; fileValidationError: string }
+
 export type RequestQuery = {
   query: {
     page: string
   }
 }
-
-export type AuthResponseBody = AuthBody
 
 export type AddMemberBody = {
   name: string
@@ -34,4 +36,7 @@ export type Id = {
   id: string
 }
 
-export type ImageReqBody = { id: string; fileValidationError: string }
+export type LinkReqBody = {
+  linkName: string
+  url: string
+}
