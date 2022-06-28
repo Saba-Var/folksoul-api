@@ -114,7 +114,7 @@ const deleteMember = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: error.message
+      message: 'მიუთითეთ ვალიდური id-ის ფორმატი'
     });
   }
 };

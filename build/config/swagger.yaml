@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Inside Joke API
-  description: API documentation for Inside Joke API
+  description: API documentation of Inside Joke API
   version: 0.1.9
 
 components:
@@ -61,9 +61,9 @@ paths:
       description: Fetch list of all band members
       responses:
         '200':
-          description: Members's list successfully fetched.
+          description: Members list successfully fetched.
         '404':
-          description: Members's list not found.
+          description: Members list not found.
 
   /add-member:
     post:
@@ -147,12 +147,11 @@ paths:
               properties:
                 id:
                   type: string
-                photo:
+                image:
                   type: string
                   format: binary
             example:
               id: ''
-
       responses:
         '201':
           description: Member avatar photo uploaded successfully.
@@ -225,5 +224,137 @@ paths:
           description: Member deleted successfully.
         '404':
           description: Member not found to delete.
+        '422':
+          description: Unprocessed Entity
+
+  # Social Link
+  /all-links:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Social Link
+      description: Fetch list of all social links
+      responses:
+        '200':
+          description: Social Links successfully fetched.
+        '404':
+          description: Social Links list not found.
+
+  /add-social-link:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Social Link
+      description: Add social link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                linkName:
+                  type: string
+                url:
+                  type: string
+            example:
+              linkName: ''
+              url: ''
+      responses:
+        '201':
+          description: Social link saved successfully.
+        '400':
+          description: Social link already exists.
+        '404':
+          description: Social link save failed.
+        '422':
+          description: Unprocessed Entity
+
+  /upload-link-image:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Social Link
+      description: Upload photo of certain social link
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+            example:
+              id: ''
+      responses:
+        '201':
+          description: Social link photo uploaded successfully.
+        '404':
+          description: Social link not found.
+        '422':
+          description: Unprocessed Entity
+
+  /change-link:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Social Link
+      description: Change details of certain social Link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                linkName:
+                  type: string
+                url:
+                  type: string
+            example:
+              id: ''
+              linkName: ''
+              url: ''
+      responses:
+        '201':
+          description: Social link details changed successfully.
+        '404':
+          description: Social link not found.
+        '422':
+          description: Unprocessed Entity
+
+  /delete-link:
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Social Link
+      description: Delete certain social link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+            example:
+              id: ''
+      responses:
+        '200':
+          description: Social link deleted successfully.
+        '404':
+          description: Social link not found to delete.
         '422':
           description: Unprocessed Entity

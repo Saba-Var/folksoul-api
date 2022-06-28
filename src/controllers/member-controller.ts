@@ -107,7 +107,7 @@ export const deleteMember = async (req: RequestBody<Id>, res: Response) => {
     await Member.deleteOne(id)
     return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' })
   } catch (error: any) {
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: 'მიუთითეთ ვალიდური id-ის ფორმატი' })
   }
 }
 

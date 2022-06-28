@@ -55,7 +55,7 @@ export const deleteLink = async (req: RequestBody<Id>, res: Response) => {
     await Link.deleteOne(id)
     return res.status(200).json({ message: 'სოციალური ბმული წაიშალა!' })
   } catch (error: any) {
-    return res.status(500).json({ message: error.message })
+    return res.status(500).json({ message: 'მიუთითეთ ვალიდური id-ის ფორმატი' })
   }
 }
 
