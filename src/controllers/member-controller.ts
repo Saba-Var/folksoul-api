@@ -158,7 +158,7 @@ export const getOneMember = async (req: RequestBody<Id>, res: Response) => {
 
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/images/')
+    cb(null, 'public/images/members')
   },
 
   filename: (req, file, cb) => {
