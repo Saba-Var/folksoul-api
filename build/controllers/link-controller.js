@@ -3,9 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllLinks = exports.addLink = void 0;
+exports.getAllLinks = exports.deleteLink = exports.addLink = void 0;
+
+var _file = _interopRequireDefault(require("../util/file"));
 
 var _Link = _interopRequireDefault(require("../models/Link"));
+
+var _mongoose = _interopRequireDefault(require("mongoose"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50,3 +54,26 @@ const addLink = async (req, res) => {
 };
 
 exports.addLink = addLink;
+
+const deleteLink = async (req, res) => {
+  try {
+    const id = {
+      _id: new _mongoose.default.Types.ObjectId(req.body.id)
+    };
+    const link = await _Link.default.findOne(id);
+    if (!link) return res.status(404).json({
+      message: 'სოციალური ბმული ვერ მოიძებნა'
+    });
+    if (link.image) (0, _file.default)(`public/${link.image}`);
+    await _Link.default.deleteOne(id);
+    return res.status(200).json({
+      message: 'სოციალური ბმული წაიშალა!'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+exports.deleteLink = deleteLink;

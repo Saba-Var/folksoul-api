@@ -1,11 +1,12 @@
 import { Response, RequestBody } from '../types'
-import { LinkReqBody } from './types'
+import { LinkReqBody, Id } from './types'
+import deleteFile from '../util/file'
 import Link from '../models/Link'
+import mongoose from 'mongoose'
 
 export const getAllLinks = async (_req: {}, res: Response) => {
   try {
     const links = await Link.find().select('-__v')
-
     if (links.length === 0) return res.status(200).json([])
 
     return res.status(200).json(links)
@@ -33,6 +34,24 @@ export const addLink = async (req: RequestBody<LinkReqBody>, res: Response) => {
     return res
       .status(201)
       .json({ message: 'სოციალური ბმული წარმატებით შეინახა!' })
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message })
+  }
+}
+
+export const deleteLink = async (req: RequestBody<Id>, res: Response) => {
+  try {
+    const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
+
+    const link = await Link.findOne(id)
+
+    if (!link)
+      return res.status(404).json({ message: 'სოციალური ბმული ვერ მოიძებნა' })
+
+    if (link.image) deleteFile(`public/${link.image}`)
+
+    await Link.deleteOne(id)
+    return res.status(200).json({ message: 'სოციალური ბმული წაიშალა!' })
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
   }
