@@ -1,9 +1,10 @@
-import { authMiddleware } from './middlewares/index'
 import { swaggerMiddleware } from './middlewares/index'
+import { authMiddleware } from './middlewares/index'
 import connectToMongo from './config/mongo'
 import SwaggerUI from 'swagger-ui-express'
 import memberRouter from './routes/member'
 import authRouter from './routes/auth'
+import linkRouter from './routes/link'
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -23,6 +24,7 @@ server.use(express.static('public'))
 server.use(authMiddleware)
 
 server.use(memberRouter)
+server.use(linkRouter)
 
 server.listen(process.env.SERVER_PORT, () => {
   console.log(

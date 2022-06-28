@@ -3,6 +3,12 @@ export type NewUser = {
   password: string
 }
 
+export type NewLink = {
+  linkName: string
+  url: string
+  image?: string
+}
+
 export type NewMember = {
   name: string
   instrument: string

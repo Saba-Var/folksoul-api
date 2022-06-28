@@ -10,6 +10,8 @@ var _member = _interopRequireDefault(require("./routes/member"));
 
 var _auth = _interopRequireDefault(require("./routes/auth"));
 
+var _link = _interopRequireDefault(require("./routes/link"));
+
 var _express = _interopRequireDefault(require("express"));
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
@@ -30,6 +32,7 @@ server.use((0, _cors.default)());
 server.use(_express.default.static('public'));
 server.use(_index.authMiddleware);
 server.use(_member.default);
+server.use(_link.default);
 server.listen(process.env.SERVER_PORT, () => {
   console.log(`server listening on port http://localhost:${process.env.SERVER_PORT}`);
 });

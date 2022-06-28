@@ -6,6 +6,7 @@ const authSchema = [
     .withMessage('Username must be at least 3 characters long')
     .isLowercase()
     .withMessage('Username should not contain upper case letters'),
+
   check('password').notEmpty().withMessage('Password is required'),
 ]
 

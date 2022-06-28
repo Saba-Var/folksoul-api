@@ -217,7 +217,7 @@ const upload = (0, _multer.default)({
   storage: multerStorage,
   fileFilter: multerFilter
 });
-const uploadMemberPhoto = upload.single('photo');
+const uploadMemberPhoto = upload.single('image');
 exports.uploadMemberPhoto = uploadMemberPhoto;
 
 const uploadImage = async (req, res) => {

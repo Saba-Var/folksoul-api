@@ -188,6 +188,7 @@ const multerFilter = async (req: any, file: any, cb: any) => {
       }
       cb(null, true)
     }
+    
     if (!file.mimetype.startsWith('image')) {
       req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
       return cb(null, false, req.fileValidationError)
@@ -202,7 +203,7 @@ const upload = multer({
   fileFilter: multerFilter,
 })
 
-export const uploadMemberPhoto = upload.single('photo')
+export const uploadMemberPhoto = upload.single('image')
 
 export const uploadImage = async (
   req: RequestBody<ImageReqBody>,
