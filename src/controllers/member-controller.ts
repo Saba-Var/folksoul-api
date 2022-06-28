@@ -1,10 +1,16 @@
-import Member from '../models/Member'
 import { RequestBody, Response } from '../types'
-import { AddMemberBody, changeMemberBody } from './types'
-import mongoose from 'mongoose'
-import deleteFile from '../util/file'
 import georgianLan from '../util/georgianLan'
+import Member from '../models/Member'
+import deleteFile from '../util/file'
+import mongoose from 'mongoose'
 import multer from 'multer'
+import {
+  AddMemberBody,
+  ChangeMemberBody,
+  RequestQuery,
+  Id,
+  ImageReqBody,
+} from './types'
 
 export const addMember = async (
   req: RequestBody<AddMemberBody>,
@@ -12,6 +18,7 @@ export const addMember = async (
 ) => {
   try {
     const { name, instrument, orbitLength, color, biography } = req.body
+
     const newMemberInfo: any = {
       name,
       instrument,
@@ -22,8 +29,7 @@ export const addMember = async (
 
     for (const key in newMemberInfo) {
       if (key !== 'orbitLength' && key !== 'color') {
-        const param = newMemberInfo[key]
-        if (!georgianLan(param, key))
+        if (!georgianLan(newMemberInfo[key], key))
           return res.status(400).json({
             message: `'${key}' მხოლოდ ქართულ ასოებს უნდა შეიცავდეს!`,
           })
@@ -45,18 +51,9 @@ export const addMember = async (
   }
 }
 
-export const getAllMembers = async (
-  req: {
-    query: {
-      page: string
-    }
-  },
-  res: Response
-) => {
+export const getAllMembers = async (req: RequestQuery, res: Response) => {
   try {
-    let page: number
-    if (req.query.page) page = +req.query.page
-    else page = 1
+    let page = req.query.page ? +req.query.page : 1
 
     const membersPerPage = 3
 
@@ -96,15 +93,15 @@ export const getAllMembers = async (
   }
 }
 
-export const deleteMember = async (
-  req: RequestBody<{ id: string }>,
-  res: Response
-) => {
+export const deleteMember = async (req: RequestBody<Id>, res: Response) => {
   try {
     const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
+
     const member = await Member.findOne(id)
     if (!member) return res.status(404).json({ message: 'წევრი ვერ მოიძებნა' })
+
     if (member.image) deleteFile(`public/${member.image}`)
+
     await Member.deleteOne(id)
     return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' })
   } catch (error: any) {
@@ -113,16 +110,18 @@ export const deleteMember = async (
 }
 
 export const changeMember = async (
-  req: RequestBody<changeMemberBody>,
+  req: RequestBody<ChangeMemberBody>,
   res: Response
 ) => {
   try {
     const { id, name, instrument, color, biography, orbitLength } = req.body
 
-    const member: any = await Member.findById(id).select('-__v')
+    const member: any = await Member.findById(
+      new mongoose.Types.ObjectId(id)
+    ).select('-__v')
 
     if (!member)
-      res.status(404).json({
+      return res.status(404).json({
         message: 'წევრი ვერ მოიძებნა',
       })
 
@@ -141,16 +140,14 @@ export const changeMember = async (
   }
 }
 
-export const getOneMember = async (
-  req: RequestBody<{ id: string }>,
-  res: Response
-) => {
+export const getOneMember = async (req: RequestBody<Id>, res: Response) => {
   try {
     const { id } = req.body
     const currentMember = await Member.findById(id).select('-__v')
 
     if (!currentMember)
       return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
+
     return res.status(200).json(currentMember)
   } catch (error) {
     return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' })
@@ -161,6 +158,7 @@ const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/images/')
   },
+
   filename: (req, file, cb) => {
     const ext = file.mimetype.split('/')[1]
     cb(null, `${req.body.id}-${new Date().toISOString()}.${ext}`)
@@ -172,9 +170,8 @@ const multerFilter = async (req: any, file: any, cb: any) => {
 
   if (currentMember?.image) deleteFile(`public/${currentMember?.image}`)
 
-  if (file.mimetype.startsWith('image') && currentMember) {
-    cb(null, true)
-  } else if (!file.mimetype.startsWith('image')) {
+  if (file.mimetype.startsWith('image') && currentMember) cb(null, true)
+  else if (!file.mimetype.startsWith('image')) {
     req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
     return cb(null, false, req.fileValidationError)
   }
@@ -188,7 +185,7 @@ const upload = multer({
 export const uploadMemberPhoto = upload.single('photo')
 
 export const uploadImage = async (
-  req: RequestBody<{ id: string; fileValidationError: any }>,
+  req: RequestBody<ImageReqBody>,
   res: Response
 ) => {
   try {

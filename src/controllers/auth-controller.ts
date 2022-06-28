@@ -1,8 +1,8 @@
+import { RequestBody, Response } from '../types'
+import { AuthRequestBody } from './types'
+import User from '../models/User'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import User from '../models/User'
-import { AuthRequestBody } from './types'
-import { RequestBody, Response } from '../types'
 
 export const authentication = async (
   req: RequestBody<AuthRequestBody>,
@@ -12,9 +12,8 @@ export const authentication = async (
     const { username, password } = req.body
     const currentUser = await User.findOne({ username })
 
-    if (!currentUser) {
-      return res.status(404).json({ message: 'User not exist' })
-    }
+    if (!currentUser)
+      return res.status(404).json({ message: 'მომხმარებელი ვერ მოიძებნა' })
 
     const isMatch = await bcrypt.compare(password, currentUser.password)
 
@@ -25,7 +24,10 @@ export const authentication = async (
       )
       return res.status(200).json({ token: accessToken })
     }
-    return res.status(404).json({ message: 'Credentials are incorrect!' })
+
+    return res
+      .status(404)
+      .json({ message: 'მომხმარებლის მონაცემები არასწორია!' })
   } catch (error: any) {
     return res.status(404).json(error.message)
   }

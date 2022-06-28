@@ -5,6 +5,12 @@ type AuthBody = {
 
 export type AuthRequestBody = AuthBody
 
+export type RequestQuery = {
+  query: {
+    page: string
+  }
+}
+
 export type AuthResponseBody = AuthBody
 
 export type AddMemberBody = {
@@ -15,7 +21,7 @@ export type AddMemberBody = {
   biography: string
 }
 
-export type changeMemberBody = {
+export type ChangeMemberBody = {
   id: string
   name: string
   instrument: string
@@ -23,3 +29,9 @@ export type changeMemberBody = {
   color: string
   biography: string
 }
+
+export type Id = {
+  id: string
+}
+
+export type ImageReqBody = { id: string; fileValidationError: string }

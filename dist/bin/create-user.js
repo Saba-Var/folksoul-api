@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const readline_1 = __importDefault(require("readline"));
 const mongo_1 = __importDefault(require("../config/mongo"));
 const User_1 = __importDefault(require("../models/User"));
+const readline_1 = __importDefault(require("readline"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const readLine = readline_1.default.createInterface({
     input: process.stdin,
     output: process.stdout,

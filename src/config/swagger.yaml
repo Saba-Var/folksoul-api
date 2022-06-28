@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: NodeJS Project
+  description: Here goes description
+  version: 0.1.9
+
+servers:
+  - url: http://localhost:5000/api
+    description: local server
+  - url: http://producation.app/api
+    description: production server
+
+paths:
+  /users:
+    get:
+      responses:
+        '200':
+          description: Returns a list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    email:
+                      type: string
+                  example:
+                    firstName: gela
+                    lastName: iashvili
+                    email: gela@redberry.ge

@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
 import { NewUser } from './types'
+import mongoose from 'mongoose'
 
 const { Schema } = mongoose
 

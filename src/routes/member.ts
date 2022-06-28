@@ -1,3 +1,6 @@
+import memberDetailsSchema from '../schemas/member-details-schema'
+import { validateRequestSchema } from '../middlewares/index'
+import idSchema from '../schemas/id-schema'
 import express from 'express'
 import {
   addMember,
@@ -8,9 +11,6 @@ import {
   uploadImage,
   uploadMemberPhoto,
 } from '../controllers/member-controller'
-import idSchema from '../schemas/id-schema'
-import memberDetailsSchema from '../schemas/member-details-schema'
-import { validateRequestSchema } from '../middlewares/index'
 
 const router = express.Router()
 
@@ -29,6 +29,7 @@ router.post(
 
 router.put(
   '/change-member',
+  idSchema,
   memberDetailsSchema,
   validateRequestSchema,
   changeMember

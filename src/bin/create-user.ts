@@ -1,8 +1,8 @@
-import dotenv from 'dotenv'
-import bcrypt from 'bcryptjs'
-import readline from 'readline'
 import connectToMongo from '../config/mongo'
 import User from '../models/User'
+import readline from 'readline'
+import bcrypt from 'bcryptjs'
+import dotenv from 'dotenv'
 
 const readLine = readline.createInterface({
   input: process.stdin,

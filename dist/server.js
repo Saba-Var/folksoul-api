@@ -3,17 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const index_1 = require("./middlewares/index");
+const mongo_1 = __importDefault(require("./config/mongo"));
+const member_1 = __importDefault(require("./routes/member"));
+const auth_1 = __importDefault(require("./routes/auth"));
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const mongo_1 = __importDefault(require("./config/mongo"));
-const auth_1 = __importDefault(require("./routes/auth"));
-const member_1 = __importDefault(require("./routes/member"));
-const index_1 = require("./middlewares/index");
 const cors_1 = __importDefault(require("cors"));
 const server = (0, express_1.default)();
 dotenv_1.default.config();
 (0, mongo_1.default)();
 server.use(express_1.default.json());
+// server.use('/api-docs', swaggerMiddleware())
 server.use(auth_1.default);
 server.use((0, cors_1.default)());
 server.use(express_1.default.static('public'));

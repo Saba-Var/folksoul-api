@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadImage = exports.uploadMemberPhoto = exports.getOneMember = exports.changeMember = exports.deleteMember = exports.getAllMembers = exports.addMember = void 0;
-const Member_1 = __importDefault(require("../models/Member"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const file_1 = __importDefault(require("../util/file"));
 const georgianLan_1 = __importDefault(require("../util/georgianLan"));
+const Member_1 = __importDefault(require("../models/Member"));
+const file_1 = __importDefault(require("../util/file"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const multer_1 = __importDefault(require("multer"));
 const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -30,8 +30,7 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         };
         for (const key in newMemberInfo) {
             if (key !== 'orbitLength' && key !== 'color') {
-                const param = newMemberInfo[key];
-                if (!(0, georgianLan_1.default)(param, key))
+                if (!(0, georgianLan_1.default)(newMemberInfo[key], key))
                     return res.status(400).json({
                         message: `'${key}' მხოლოდ ქართულ ასოებს უნდა შეიცავდეს!`,
                     });
@@ -52,11 +51,7 @@ const addMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.addMember = addMember;
 const getAllMembers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let page;
-        if (req.query.page)
-            page = +req.query.page;
-        else
-            page = 1;
+        let page = req.query.page ? +req.query.page : 1;
         const membersPerPage = 3;
         const totalMembers = yield Member_1.default.find().countDocuments();
         const members = req.query.page
@@ -110,9 +105,9 @@ exports.deleteMember = deleteMember;
 const changeMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id, name, instrument, color, biography, orbitLength } = req.body;
-        const member = yield Member_1.default.findById(id).select('-__v');
+        const member = yield Member_1.default.findById(new mongoose_1.default.Types.ObjectId(id)).select('-__v');
         if (!member)
-            res.status(404).json({
+            return res.status(404).json({
                 message: 'წევრი ვერ მოიძებნა',
             });
         member.name = name;
@@ -156,9 +151,8 @@ const multerFilter = (req, file, cb) => __awaiter(void 0, void 0, void 0, functi
     const currentMember = yield Member_1.default.findById(req.body.id);
     if (currentMember === null || currentMember === void 0 ? void 0 : currentMember.image)
         (0, file_1.default)(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`);
-    if (file.mimetype.startsWith('image') && currentMember) {
+    if (file.mimetype.startsWith('image') && currentMember)
         cb(null, true);
-    }
     else if (!file.mimetype.startsWith('image')) {
         req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!';
         return cb(null, false, req.fileValidationError);

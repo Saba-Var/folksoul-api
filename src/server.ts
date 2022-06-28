@@ -1,11 +1,12 @@
+import { authMiddleware } from './middlewares/index'
+import { swaggerMiddleware } from './middlewares/index'
+import connectToMongo from './config/mongo'
+import SwaggerUI from 'swagger-ui-express'
+import memberRouter from './routes/member'
+import authRouter from './routes/auth'
 import express from 'express'
 import dotenv from 'dotenv'
-import connectToMongo from './config/mongo'
-import authRouter from './routes/auth'
-import memberRouter from './routes/member'
-import { authMiddleware } from './middlewares/index'
 import cors from 'cors'
-import path from 'path'
 
 const server = express()
 
@@ -13,6 +14,8 @@ dotenv.config()
 connectToMongo()
 
 server.use(express.json())
+server.use('/api-docs', SwaggerUI.serve, swaggerMiddleware())
+
 server.use(authRouter)
 server.use(cors())
 

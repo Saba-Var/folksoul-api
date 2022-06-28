@@ -11,9 +11,11 @@ const authMiddleware = async (req: any, res: Response, next: Next) => {
         return res.status(401).json({
           message: 'missing authorization header',
         })
+
       const token = authorization.trim().split(' ')[1]
       let verified: string | JwtPayload
       verified = jwt.verify(token, secretText)
+
       if (verified) return next()
       return res.status(401).json({ message: 'User is not authorized' })
     }
