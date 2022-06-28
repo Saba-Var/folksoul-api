@@ -46,3 +46,5 @@ export type ChangeLinkReqBody = {
   linkName: string
   url: string
 }
+
+export type File = { mimetype: string }

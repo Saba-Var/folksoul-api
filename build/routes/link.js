@@ -23,5 +23,6 @@ router.get('/all-links', _linkController.getAllLinks);
 router.delete('/delete-link', _idSchema.default, _index.validateRequestSchema, _linkController.deleteLink);
 router.post('/add-social-link', _socialLinkSchema.default, _index.validateRequestSchema, _linkController.addLink);
 router.put('/change-link', _idSchema.default, _socialLinkSchema.default, _index.validateRequestSchema, _linkController.changeLink);
+router.patch('/upload-link-image', _linkController.uploadLinkPhoto, _idSchema.default, _index.validateRequestSchema, _linkController.uploadImage);
 var _default = router;
 exports.default = _default;

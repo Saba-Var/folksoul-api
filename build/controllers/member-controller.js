@@ -197,10 +197,7 @@ const multerFilter = async (req, file, cb) => {
     }
 
     if (file.mimetype.startsWith('image') && currentMember) {
-      if (_fs.default.existsSync(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`) && currentMember.image) {
-        (0, _file2.default)(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`);
-      }
-
+      if (_fs.default.existsSync(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`) && currentMember.image) (0, _file2.default)(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`);
       cb(null, true);
     }
 

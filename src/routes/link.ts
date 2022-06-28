@@ -7,6 +7,8 @@ import {
   getAllLinks,
   deleteLink,
   changeLink,
+  uploadImage,
+  uploadLinkPhoto,
 } from '../controllers/link-controller'
 
 const router = express.Router()
@@ -28,6 +30,14 @@ router.put(
   socialLinkSchema,
   validateRequestSchema,
   changeLink
+)
+
+router.patch(
+  '/upload-link-image',
+  uploadLinkPhoto,
+  idSchema,
+  validateRequestSchema,
+  uploadImage
 )
 
 export default router

@@ -1,4 +1,5 @@
 import { RequestBody, Response } from '../types'
+import { File } from './types'
 import georgianLan from '../util/georgianLan'
 import Member from '../models/Member'
 import deleteFile from '../util/file'
@@ -166,7 +167,7 @@ const multerStorage = multer.diskStorage({
   },
 })
 
-const multerFilter = async (req: any, file: any, cb: any) => {
+const multerFilter = async (req: any, file: File, cb: any) => {
   try {
     if (req.body.id.length !== 24) {
       req.body.fileValidationError = 'id უნდა შეიცავდეს 24 სიმბოლოს'
@@ -183,12 +184,12 @@ const multerFilter = async (req: any, file: any, cb: any) => {
       if (
         fs.existsSync(`public/${currentMember?.image}`) &&
         currentMember.image
-      ) {
+      )
         deleteFile(`public/${currentMember?.image}`)
-      }
+
       cb(null, true)
     }
-    
+
     if (!file.mimetype.startsWith('image')) {
       req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
       return cb(null, false, req.fileValidationError)
