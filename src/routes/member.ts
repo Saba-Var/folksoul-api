@@ -35,7 +35,7 @@ router.put(
 )
 
 router.patch(
-  '/upload-image',
+  '/upload-member-image',
   uploadMemberPhoto,
   idSchema,
   validateRequestSchema,

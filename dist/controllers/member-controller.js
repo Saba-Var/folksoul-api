@@ -149,7 +149,7 @@ const multerStorage = multer_1.default.diskStorage({
     },
     filename: (req, file, cb) => {
         const ext = file.mimetype.split('/')[1];
-        cb(null, `member-${req.body.id}.${ext}`);
+        cb(null, `${req.body.id}-${new Date().toISOString()}.${ext}`);
     },
 });
 const multerFilter = (req, file, cb) => __awaiter(void 0, void 0, void 0, function* () {
@@ -159,7 +159,7 @@ const multerFilter = (req, file, cb) => __awaiter(void 0, void 0, void 0, functi
     if (file.mimetype.startsWith('image') && currentMember) {
         cb(null, true);
     }
-    else if (file.mimetype.startsWith('image')) {
+    else if (!file.mimetype.startsWith('image')) {
         req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!';
         return cb(null, false, req.fileValidationError);
     }

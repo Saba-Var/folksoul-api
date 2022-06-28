@@ -163,7 +163,7 @@ const multerStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const ext = file.mimetype.split('/')[1]
-    cb(null, `${file.originalname}-${new Date().toISOString()}.${ext}`)
+    cb(null, `${req.body.id}-${new Date().toISOString()}.${ext}`)
   },
 })
 
@@ -174,7 +174,7 @@ const multerFilter = async (req: any, file: any, cb: any) => {
 
   if (file.mimetype.startsWith('image') && currentMember) {
     cb(null, true)
-  } else if (file.mimetype.startsWith('image')) {
+  } else if (!file.mimetype.startsWith('image')) {
     req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
     return cb(null, false, req.fileValidationError)
   }

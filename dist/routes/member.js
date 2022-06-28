@@ -14,5 +14,5 @@ router.delete('/delete-member', id_schema_1.default, index_1.validateRequestSche
 router.post('/get-one-member', id_schema_1.default, index_1.validateRequestSchema, member_controller_1.getOneMember);
 router.post('/add-member', member_details_schema_1.default, index_1.validateRequestSchema, member_controller_1.addMember);
 router.put('/change-member', member_details_schema_1.default, index_1.validateRequestSchema, member_controller_1.changeMember);
-router.patch('/upload-image', member_controller_1.uploadMemberPhoto, id_schema_1.default, index_1.validateRequestSchema, member_controller_1.uploadImage);
+router.patch('/upload-member-image', member_controller_1.uploadMemberPhoto, id_schema_1.default, index_1.validateRequestSchema, member_controller_1.uploadImage);
 exports.default = router;
