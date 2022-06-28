@@ -1,0 +1,229 @@
+openapi: 3.0.0
+info:
+  title: Inside Joke API
+  description: API documentation for Inside Joke API
+  version: 0.1.9
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+servers:
+  - url: http://localhost:5000/
+    description: local server
+  - url: http://producation.app/api
+    description: production server
+
+# Authentication
+paths:
+  /auth:
+    post:
+      tags:
+        - Authentication
+      description: Generate JWT token to access forbidden content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+            example:
+              username: ''
+              password: ''
+      responses:
+        '201':
+          description: JWT token generated successfully.
+        '404':
+          description: Credentials are incorrect.
+
+  # Member
+  /all-members:
+    get:
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+          description: Fetch certain 3 users according to page parameter
+      security:
+        - bearerAuth: []
+      tags:
+        - Member
+      description: Fetch list of all band members
+      responses:
+        '200':
+          description: Members's list successfully fetched.
+        '404':
+          description: Members's list not found.
+
+  /add-member:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Member
+      description: Add one Member to band
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                instrument:
+                  type: string
+                orbitLength:
+                  type: number
+                color:
+                  type: string
+                biography:
+                  type: string
+            example:
+              name: ''
+              instrument: ''
+              orbitLength: 100
+              color: '#000000'
+              biography: ''
+      responses:
+        '201':
+          description: Member saved successfully.
+        '400':
+          description: Member already exists.
+        '404':
+          description: Member save failed.
+        '422':
+          description: Unprocessed Entity
+
+  /get-one-member:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Member
+      description: Fetch details about one band member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+            example:
+              id: ''
+      responses:
+        '200':
+          description: Member details successfully fetched.
+        '404':
+          description: Member not found.
+        '422':
+          description: Unprocessed Entity
+
+  /upload-member-image:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Member
+      description: Upload avatar photo of certain band member
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                photo:
+                  type: string
+                  format: binary
+            example:
+              id: ''
+
+      responses:
+        '201':
+          description: Member avatar photo uploaded successfully.
+        '404':
+          description: Member not found.
+        '422':
+          description: Unprocessed Entity
+
+  /change-member:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Member
+      description: Change details of certain band member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                instrument:
+                  type: string
+                orbitLength:
+                  type: number
+                color:
+                  type: string
+                biography:
+                  type: string
+            example:
+              id: ''
+              name: ''
+              instrument: ''
+              orbitLength: 100
+              color: '#000000'
+              biography: ''
+      responses:
+        '201':
+          description: Member details changed successfully.
+        '404':
+          description: Not found.
+        '422':
+          description: Unprocessed Entity
+
+  /delete-member:
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Member
+      description: Delete one member from the band
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+            example:
+              id: ''
+      responses:
+        '200':
+          description: Member deleted successfully.
+        '404':
+          description: Member not found to delete.
+        '422':
+          description: Unprocessed Entity

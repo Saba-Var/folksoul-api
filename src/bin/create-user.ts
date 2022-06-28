@@ -36,7 +36,7 @@ const createUser = () => {
         }
       }
 
-      const newUser = await User.create({
+      await User.create({
         username,
         password,
       })

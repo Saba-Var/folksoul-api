@@ -4,7 +4,6 @@ import Member from '../models/Member'
 import deleteFile from '../util/file'
 import mongoose from 'mongoose'
 import multer from 'multer'
-import path from 'path'
 import fs from 'fs'
 import {
   AddMemberBody,
@@ -157,7 +156,7 @@ export const getOneMember = async (req: RequestBody<Id>, res: Response) => {
 }
 
 const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, 'public/images/members')
   },
 

@@ -1,6 +1,5 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { Response, Next } from '../types'
-import { AuthResponse } from './types'
 
 const authMiddleware = async (req: any, res: Response, next: Next) => {
   try {
