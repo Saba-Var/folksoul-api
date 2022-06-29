@@ -69,6 +69,6 @@ export const uploadImage = async (
       })
     } else return res.status(422).json({ message: 'ატვირთეთ ბენდის სურათი' })
   } catch (error: any) {
-    return res.status(500).json({ message: error })
+    return res.status(500).json({ message: error.message })
   }
 }

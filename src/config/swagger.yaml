@@ -358,3 +358,75 @@ paths:
           description: Social link not found to delete.
         '422':
           description: Unprocessed Entity
+
+  # Band
+  /band-about:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Band
+      description: Fetch details about band
+      responses:
+        '200':
+          description: Band details successfully fetched.
+        '404':
+          description: Band not found.
+
+  /upload-band-image:
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Band
+      description: Upload photo of band
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+            example:
+              id: ''
+      responses:
+        '201':
+          description: Band photo uploaded successfully.
+        '404':
+          description: Band not found.
+        '422':
+          description: Unprocessed Entity
+
+  /change-band-about:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Band
+      description: Change details of band
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                about:
+                  type: string
+            example:
+              id: ''
+              about: ''
+      responses:
+        '201':
+          description: Band details changed successfully.
+        '404':
+          description: Band not found.
+        '422':
+          description: Unprocessed Entity
