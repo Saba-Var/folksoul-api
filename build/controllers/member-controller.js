@@ -5,17 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.uploadMemberPhoto = exports.uploadImage = exports.getOneMember = exports.getAllMembers = exports.deleteMember = exports.changeMember = exports.addMember = void 0;
 
+var _multerProperties = require("../util/multerProperties");
+
 var _georgianLan = _interopRequireDefault(require("../util/georgianLan"));
 
-var _Member = _interopRequireDefault(require("../models/Member"));
+var _deleteFile = _interopRequireDefault(require("../util/deleteFile"));
 
-var _file2 = _interopRequireDefault(require("../util/file"));
+var _Member = _interopRequireDefault(require("../models/Member"));
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var _multer = _interopRequireDefault(require("multer"));
-
-var _fs = _interopRequireDefault(require("fs"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -107,7 +107,7 @@ const deleteMember = async (req, res) => {
     if (!member) return res.status(404).json({
       message: 'წევრი ვერ მოიძებნა'
     });
-    if (member.image) (0, _file2.default)(`public/${member.image}`);
+    if (member.image) (0, _deleteFile.default)(`public/${member.image}`);
     await _Member.default.deleteOne(id);
     return res.status(200).json({
       message: 'ბენდის წევრი წაიშალა!'
@@ -171,48 +171,9 @@ const getOneMember = async (req, res) => {
 };
 
 exports.getOneMember = getOneMember;
-
-const multerStorage = _multer.default.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, 'public/images/members');
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1];
-    cb(null, `${req.body.id}-${new Date().toISOString()}.${ext}`);
-  }
-});
-
-const multerFilter = async (req, file, cb) => {
-  try {
-    if (req.body.id.length !== 24) {
-      req.body.fileValidationError = 'id უნდა შეიცავდეს 24 სიმბოლოს';
-      return cb(null, false, req.fileValidationError);
-    }
-
-    const currentMember = await _Member.default.findById(req.body.id);
-
-    if (!currentMember) {
-      req.body.fileValidationError = 'ბენდის წევრი ვერ მოიძებნა';
-      return cb(null, false, req.fileValidationError);
-    }
-
-    if (file.mimetype.startsWith('image') && currentMember) {
-      if (_fs.default.existsSync(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`) && currentMember.image) (0, _file2.default)(`public/${currentMember === null || currentMember === void 0 ? void 0 : currentMember.image}`);
-      cb(null, true);
-    }
-
-    if (!file.mimetype.startsWith('image')) {
-      req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!';
-      return cb(null, false, req.fileValidationError);
-    }
-  } catch (error) {
-    req.body.fileValidationError = 'სურათი ვერ აიტვირთა!';
-  }
-};
-
 const upload = (0, _multer.default)({
-  storage: multerStorage,
-  fileFilter: multerFilter
+  storage: (0, _multerProperties.multerStorage)('members'),
+  fileFilter: (0, _multerProperties.multerFilter)(_Member.default, 'ბენდის წევრი')
 });
 const uploadMemberPhoto = upload.single('image');
 exports.uploadMemberPhoto = uploadMemberPhoto;

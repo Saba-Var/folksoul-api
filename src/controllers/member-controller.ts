@@ -1,11 +1,10 @@
+import { multerStorage, multerFilter } from '../util/multerProperties'
 import { RequestBody, Response } from '../types'
-import { File } from './types'
 import georgianLan from '../util/georgianLan'
+import deleteFile from '../util/deleteFile'
 import Member from '../models/Member'
-import deleteFile from '../util/file'
 import mongoose from 'mongoose'
 import multer from 'multer'
-import fs from 'fs'
 import {
   AddMemberBody,
   ChangeMemberBody,
@@ -156,52 +155,9 @@ export const getOneMember = async (req: RequestBody<Id>, res: Response) => {
   }
 }
 
-const multerStorage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, 'public/images/members')
-  },
-
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1]
-    cb(null, `${req.body.id}-${new Date().toISOString()}.${ext}`)
-  },
-})
-
-const multerFilter = async (req: any, file: File, cb: any) => {
-  try {
-    if (req.body.id.length !== 24) {
-      req.body.fileValidationError = 'id უნდა შეიცავდეს 24 სიმბოლოს'
-      return cb(null, false, req.fileValidationError)
-    }
-
-    const currentMember = await Member.findById(req.body.id)
-    if (!currentMember) {
-      req.body.fileValidationError = 'ბენდის წევრი ვერ მოიძებნა'
-      return cb(null, false, req.fileValidationError)
-    }
-
-    if (file.mimetype.startsWith('image') && currentMember) {
-      if (
-        fs.existsSync(`public/${currentMember?.image}`) &&
-        currentMember.image
-      )
-        deleteFile(`public/${currentMember?.image}`)
-
-      cb(null, true)
-    }
-
-    if (!file.mimetype.startsWith('image')) {
-      req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
-      return cb(null, false, req.fileValidationError)
-    }
-  } catch (error: any) {
-    req.body.fileValidationError = 'სურათი ვერ აიტვირთა!'
-  }
-}
-
 const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter,
+  storage: multerStorage('members'),
+  fileFilter: multerFilter(Member, 'ბენდის წევრი'),
 })
 
 export const uploadMemberPhoto = upload.single('image')

@@ -1,10 +1,10 @@
-import { LinkReqBody, Id, ChangeLinkReqBody, File } from './types'
+import { multerStorage, multerFilter } from '../util/multerProperties'
+import { LinkReqBody, Id, ChangeLinkReqBody } from './types'
 import { Response, RequestBody } from '../types'
-import deleteFile from '../util/file'
+import deleteFile from '../util/deleteFile'
 import Link from '../models/Link'
 import mongoose from 'mongoose'
 import multer from 'multer'
-import fs from 'fs'
 
 export const getAllLinks = async (_req: {}, res: Response) => {
   try {
@@ -89,49 +89,9 @@ export const changeLink = async (
   }
 }
 
-const multerStorage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, 'public/images/social-links')
-  },
-
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1]
-    cb(null, `${req.body.id}-${new Date().toISOString()}.${ext}`)
-  },
-})
-
-const multerFilter = async (req: any, file: File, cb: any) => {
-  try {
-    if (req.body.id.length !== 24) {
-      req.body.fileValidationError = 'id უნდა შეიცავდეს 24 სიმბოლოს'
-      return cb(null, false, req.fileValidationError)
-    }
-
-    const currentLink = await Link.findById(req.body.id)
-    if (!currentLink) {
-      req.body.fileValidationError = 'სოციალური ბმული ვერ მოიძებნა'
-      return cb(null, false, req.fileValidationError)
-    }
-
-    if (file.mimetype.startsWith('image') && currentLink) {
-      if (fs.existsSync(`public/${currentLink?.image}`) && currentLink.image)
-        deleteFile(`public/${currentLink?.image}`)
-
-      cb(null, true)
-    }
-
-    if (!file.mimetype.startsWith('image')) {
-      req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
-      return cb(null, false, req.fileValidationError)
-    }
-  } catch (error: any) {
-    req.body.fileValidationError = 'სურათი ვერ აიტვირთა!'
-  }
-}
-
 const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter,
+  storage: multerStorage('social-links'),
+  fileFilter: multerFilter(Link, 'სოციალური ბმული'),
 })
 
 export const uploadLinkPhoto = upload.single('image')
