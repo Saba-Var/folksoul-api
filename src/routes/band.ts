@@ -1,5 +1,6 @@
 import { validateRequestSchema } from '../middlewares/index'
 import bandSchema from '../schemas/band-schema'
+import idSchema from '../schemas/id-schema'
 import express from 'express'
 import {
   getBandAbout,
@@ -14,6 +15,7 @@ router.get('/band-about', getBandAbout)
 
 router.put(
   '/change-band-about',
+  idSchema,
   bandSchema,
   validateRequestSchema,
   changeBandAbout
@@ -22,6 +24,7 @@ router.put(
 router.patch(
   '/upload-band-image',
   uploadBandPhoto,
+  idSchema,
   validateRequestSchema,
   uploadImage
 )

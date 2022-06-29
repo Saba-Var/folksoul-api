@@ -48,6 +48,7 @@ export type ChangeLinkReqBody = {
 }
 
 export type ChangeBand = {
+  id: string
   about: string
 }
 

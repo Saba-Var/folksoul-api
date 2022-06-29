@@ -2,6 +2,7 @@ import { multerStorage } from '../util/multerProperties'
 import { Response, RequestBody } from '../types'
 import deleteFile from '../util/deleteFile'
 import { ChangeBand } from './types'
+import mongoose from 'mongoose'
 import Band from 'models/Band'
 import { File } from './types'
 import multer from 'multer'
@@ -26,15 +27,17 @@ export const changeBandAbout = async (
   res: Response
 ) => {
   try {
-    const band = await Band.findOne()
+    const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
+    const band = await Band.findOne(id)
 
-    if (band) {
-      band.about = req.body.about
-      await band.save()
-      return res
-        .status(200)
-        .json({ message: 'ბენდის ინფორმაცია წარმატებით შეიცვალა!' })
-    } else return res.status(404).json({ message: 'ბენდი ჯერ არ არსებობს' })
+    if (!band) return res.status(404).json({ message: 'ბენდი ჯერ არ არსებობს' })
+
+    band.about = req.body.about
+    await band.save()
+
+    return res
+      .status(200)
+      .json({ message: 'ბენდის ინფორმაცია წარმატებით შეიცვალა!' })
   } catch (error: any) {
     return res.status(500).json({ error: error.message })
   }

@@ -9,6 +9,8 @@ var _multerProperties = require("../util/multerProperties");
 
 var _deleteFile = _interopRequireDefault(require("../util/deleteFile"));
 
+var _mongoose = _interopRequireDefault(require("mongoose"));
+
 var _Band = _interopRequireDefault(require("../models/Band"));
 
 var _multer = _interopRequireDefault(require("multer"));
@@ -35,16 +37,17 @@ exports.getBandAbout = getBandAbout;
 
 const changeBandAbout = async (req, res) => {
   try {
-    const band = await _Band.default.findOne();
-
-    if (band) {
-      band.about = req.body.about;
-      await band.save();
-      return res.status(200).json({
-        message: 'ბენდის ინფორმაცია წარმატებით შეიცვალა!'
-      });
-    } else return res.status(404).json({
+    const id = {
+      _id: new _mongoose.default.Types.ObjectId(req.body.id)
+    };
+    const band = await _Band.default.findOne(id);
+    if (!band) return res.status(404).json({
       message: 'ბენდი ჯერ არ არსებობს'
+    });
+    band.about = req.body.about;
+    await band.save();
+    return res.status(200).json({
+      message: 'ბენდის ინფორმაცია წარმატებით შეიცვალა!'
     });
   } catch (error) {
     return res.status(500).json({
