@@ -109,7 +109,7 @@ export const uploadImage = async (req: RequestBody<any>, res: Response) => {
       currentLink.image = req.file.path.substring(7)
       await currentLink.save()
       return res.status(201).json({
-        message: 'სოციალური ბმული წარმატებით აიტვირთა',
+        message: 'სოციალური ბმულის სურათი წარმატებით აიტვირთა',
       })
     } else
       return res
