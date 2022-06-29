@@ -24,7 +24,6 @@ router.put(
 router.patch(
   '/upload-band-image',
   uploadBandPhoto,
-  idSchema,
   validateRequestSchema,
   uploadImage
 )

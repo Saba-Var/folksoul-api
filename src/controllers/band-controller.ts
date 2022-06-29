@@ -1,12 +1,9 @@
-import { multerStorage } from '../util/multerProperties'
+import { multerStorage, multerFilter } from '../util/multerProperties'
+import { ChangeBand, ImageReqBody } from './types'
 import { Response, RequestBody } from '../types'
-import deleteFile from '../util/deleteFile'
-import { ChangeBand } from './types'
 import mongoose from 'mongoose'
 import Band from 'models/Band'
-import { File } from './types'
 import multer from 'multer'
-import fs from 'fs'
 
 export const getBandAbout = async (_req: {}, res: Response) => {
   try {
@@ -43,40 +40,22 @@ export const changeBandAbout = async (
   }
 }
 
-const multerFilter = async (req: any, file: File, cb: any) => {
-  try {
-    const band = await Band.findOne()
-    if (!band) {
-      req.body.fileValidationError = `ბენდი ვერ მოიძებნა`
-      return cb(null, false, req.fileValidationError)
-    }
-
-    if (file.mimetype.startsWith('image') && band) {
-      if (fs.existsSync(`public/${band?.image}`) && band.image)
-        deleteFile(`public/${band?.image}`)
-
-      cb(null, true)
-    }
-
-    if (!file.mimetype.startsWith('image')) {
-      req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
-      return cb(null, false, req.fileValidationError)
-    }
-  } catch (error: any) {
-    return (req.body.fileValidationError = 'სურათი ვერ აიტვირთა!')
-  }
-}
-
 const upload = multer({
   storage: multerStorage('band'),
-  fileFilter: multerFilter,
+  fileFilter: multerFilter(Band, 'ბენდი'),
 })
 
 export const uploadBandPhoto = upload.single('image')
 
-export const uploadImage = async (req: RequestBody<any>, res: Response) => {
+export const uploadImage = async (
+  req: RequestBody<ImageReqBody>,
+  res: Response
+) => {
   try {
-    const band = await Band.findOne()
+    const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
+
+    const band = await Band.findOne(id)
+
     if (!band) return res.status(404).json({ message: 'ბენდი ვერ მოიძებნა' })
 
     if (req.body.fileValidationError)
