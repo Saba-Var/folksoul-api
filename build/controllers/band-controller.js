@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getBandAbout = void 0;
+exports.getBandAbout = exports.changeBandAbout = void 0;
 
 var _Band = _interopRequireDefault(require("../models/Band"));
 
@@ -24,3 +24,25 @@ const getBandAbout = async (_req, res) => {
 };
 
 exports.getBandAbout = getBandAbout;
+
+const changeBandAbout = async (req, res) => {
+  try {
+    const band = await _Band.default.findOne();
+
+    if (band) {
+      band.about = req.body.about;
+      await band.save();
+      return res.status(200).json({
+        message: 'ბენდის ინფორმაცია წარმატებით შეიცვალა!'
+      });
+    } else return res.status(404).json({
+      message: 'ბენდი ჯერ არ არსებობს'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+exports.changeBandAbout = changeBandAbout;

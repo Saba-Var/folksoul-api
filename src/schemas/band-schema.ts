@@ -4,7 +4,7 @@ const bandSchema = [
   check('about')
     .trim()
     .isLength({ min: 1 })
-    .withMessage('შეიყვანეთ ვენდის შესახებ ინფორმაცია'),
+    .withMessage('შეიყვანეთ ბენდის შესახებ ინფორმაცია'),
 ]
 
 export default bandSchema

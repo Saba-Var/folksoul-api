@@ -47,4 +47,8 @@ export type ChangeLinkReqBody = {
   url: string
 }
 
+export type ChangeBand = {
+  about: string
+}
+
 export type File = { mimetype: string }
