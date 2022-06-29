@@ -17,3 +17,8 @@ export type NewMember = {
   biography: string
   image?: string
 }
+
+export type Band = {
+  about: string
+  image?: string
+}

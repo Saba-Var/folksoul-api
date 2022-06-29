@@ -5,6 +5,7 @@ import SwaggerUI from 'swagger-ui-express'
 import memberRouter from './routes/member'
 import authRouter from './routes/auth'
 import linkRouter from './routes/link'
+import bandRouter from './routes/band'
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
@@ -25,6 +26,7 @@ server.use(authMiddleware)
 
 server.use(memberRouter)
 server.use(linkRouter)
+server.use(bandRouter)
 
 server.listen(process.env.SERVER_PORT, () => {
   console.log(
