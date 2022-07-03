@@ -9,5 +9,3 @@ export type FilterReqBody = {
 }
 
 export type Callback = (param1: null, param2: boolean, param3?: string) => void
-
-export type Image = { image: string }
