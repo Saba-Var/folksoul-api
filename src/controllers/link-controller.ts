@@ -1,10 +1,16 @@
 import { multerStorage, multerFilter } from '../util/multerProperties'
-import { LinkReqBody, Id, ChangeLinkReqBody } from './types'
 import { Response, RequestBody } from '../types'
 import deleteFile from '../util/deleteFile'
 import Link from '../models/Link'
 import mongoose from 'mongoose'
 import multer from 'multer'
+import {
+  LinkReqBody,
+  Id,
+  ChangeLinkReqBody,
+  LinkModel,
+  UploadImageReqBody,
+} from './types'
 
 export const getAllLinks = async (_req: {}, res: Response) => {
   try {
@@ -66,7 +72,7 @@ export const changeLink = async (
   try {
     const { id, linkName, url } = req.body
 
-    const link: any = await Link.findById(
+    const link: LinkModel = await Link.findById(
       new mongoose.Types.ObjectId(id)
     ).select('-__v')
 
@@ -96,9 +102,13 @@ const upload = multer({
 
 export const uploadLinkPhoto = upload.single('image')
 
-export const uploadImage = async (req: RequestBody<any>, res: Response) => {
+export const uploadImage = async (
+  req: RequestBody<UploadImageReqBody>,
+  res: Response
+) => {
   try {
     const currentLink = await Link.findById(req.body.id)
+
     if (!currentLink)
       return res.status(404).json({ message: 'სოციალური ბმული ვერ მოიძებნა' })
 

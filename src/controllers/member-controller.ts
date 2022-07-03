@@ -3,6 +3,7 @@ import { RequestBody, Response } from '../types'
 import georgianLan from '../util/georgianLan'
 import deleteFile from '../util/deleteFile'
 import Member from '../models/Member'
+import { MemberModel } from './types'
 import mongoose from 'mongoose'
 import multer from 'multer'
 import {
@@ -117,7 +118,7 @@ export const changeMember = async (
   try {
     const { id, name, instrument, color, biography, orbitLength } = req.body
 
-    const member: any = await Member.findById(
+    const member: MemberModel = await Member.findById(
       new mongoose.Types.ObjectId(id)
     ).select('-__v')
 

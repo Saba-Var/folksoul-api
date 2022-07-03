@@ -1,7 +1,8 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { Response, Next } from '../types'
+import { AuthReqBody } from './types'
 
-const authMiddleware = async (req: any, res: Response, next: Next) => {
+const authMiddleware = async (req: AuthReqBody, res: Response, next: Next) => {
   try {
     const secretText = process.env.ACCESS_TOKEN_SECRET
     if (secretText) {

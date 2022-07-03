@@ -1,5 +1,6 @@
+import { File, FilterReqBody, Callback, Image } from './types'
 import deleteFile from './deleteFile'
-import { File } from './types'
+import mongoose from 'mongoose'
 import multer from 'multer'
 import fs from 'fs'
 
@@ -14,11 +15,12 @@ export const multerStorage = (location: string) => {
       cb(null, `${req.body.id}-${new Date().toISOString()}.${ext}`)
     },
   })
+
   return storage
 }
 
-export const multerFilter = (model: any, text: string) => {
-  const filter = async (req: any, file: File, cb: any) => {
+export const multerFilter = (model: mongoose.Model<Image>, text: string) => {
+  const filter = async (req: FilterReqBody, file: File, cb: Callback) => {
     try {
       if (req.body.id.length !== 24) {
         req.body.fileValidationError = 'id უნდა შეიცავდეს 24 სიმბოლოს'

@@ -1,13 +1,15 @@
+import { NewLink, NewMember } from '../models/types'
+
 type AuthBody = {
   username: string
   password: string
 }
 
+export type ImageReqBody = { id: string; fileValidationError: string }
+
 export type AuthRequestBody = AuthBody
 
 export type AuthResponseBody = AuthBody
-
-export type ImageReqBody = { id: string; fileValidationError: string }
 
 export type RequestQuery = {
   query: {
@@ -53,3 +55,9 @@ export type ChangeBand = {
 }
 
 export type File = { mimetype: string }
+
+export type UploadImageReqBody = { id: string; fileValidationError?: string }
+
+export type LinkModel = mongoose.Model<NewLink>
+
+export type MemberModel = mongoose.Model<NewMember>
