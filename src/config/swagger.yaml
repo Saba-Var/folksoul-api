@@ -228,8 +228,6 @@ paths:
   # Social Link
   /all-links:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Social Link
       description: Fetch list of all social links
