@@ -31,7 +31,7 @@ export const addLink = async (req: RequestBody<LinkReqBody>, res: Response) => {
 
     if (existingLink)
       return res
-        .status(400)
+        .status(409)
         .json({ message: `სოციალური ბმული '${linkName}' უკვე არსებობს` })
 
     await Link.create({
