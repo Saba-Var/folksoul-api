@@ -1,3 +1,5 @@
+export type Callback = (param1: null, param2: boolean, param3?: string) => void
+
 export type File = { mimetype: string }
 
 export type FilterReqBody = {
@@ -7,5 +9,3 @@ export type FilterReqBody = {
   }
   fileValidationError: string
 }
-
-export type Callback = (param1: null, param2: boolean, param3?: string) => void

@@ -1,15 +1,27 @@
 import { NewLink, NewMember } from '../models/types'
 
+export type UploadImageReqBody = { id: string; fileValidationError?: string }
+
+export type ImageReqBody = { id: string; fileValidationError: string }
+
+export type MemberModel = mongoose.Model<NewMember>
+
+export type LinkModel = mongoose.Model<NewLink>
+
+export type File = { mimetype: string }
+
+export type AuthResponseBody = AuthBody
+
+export type AuthRequestBody = AuthBody
+
 type AuthBody = {
   username: string
   password: string
 }
 
-export type ImageReqBody = { id: string; fileValidationError: string }
-
-export type AuthRequestBody = AuthBody
-
-export type AuthResponseBody = AuthBody
+export type Id = {
+  id: string
+}
 
 export type RequestQuery = {
   query: {
@@ -18,23 +30,19 @@ export type RequestQuery = {
 }
 
 export type AddMemberBody = {
-  name: string
-  instrument: string
   orbitLength: number
-  color: string
+  instrument: string
   biography: string
+  color: string
+  name: string
 }
 
 export type ChangeMemberBody = {
-  id: string
-  name: string
-  instrument: string
   orbitLength: number
-  color: string
+  instrument: string
   biography: string
-}
-
-export type Id = {
+  color: string
+  name: string
   id: string
 }
 
@@ -44,20 +52,12 @@ export type LinkReqBody = {
 }
 
 export type ChangeLinkReqBody = {
-  id: string
   linkName: string
   url: string
+  id: string
 }
 
 export type ChangeBand = {
-  id: string
   about: string
+  id: string
 }
-
-export type File = { mimetype: string }
-
-export type UploadImageReqBody = { id: string; fileValidationError?: string }
-
-export type LinkModel = mongoose.Model<NewLink>
-
-export type MemberModel = mongoose.Model<NewMember>

@@ -5,20 +5,20 @@ export type NewUser = {
 
 export type NewLink = {
   linkName: string
-  url: string
   image?: string
+  url: string
 }
 
 export type NewMember = {
-  name: string
-  instrument: string
   orbitLength: number
-  color: string
+  instrument: string
   biography: string
   image?: string
+  color: string
+  name: string
 }
 
 export type Band = {
-  about: string
   image?: string
+  about: string
 }
