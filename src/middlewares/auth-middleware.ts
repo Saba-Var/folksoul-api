@@ -3,9 +3,8 @@ import { Response, Next } from '../types'
 
 const authMiddleware = (req: any, res: Response, next: Next) => {
   try {
-    if (req.url === '/band-about' || req.url === '/all-members') {
+    if (req.url.includes('/band-about') || req.url.includes('/all-members'))
       return next()
-    }
 
     const secretText = process.env.ACCESS_TOKEN_SECRET
     if (secretText) {

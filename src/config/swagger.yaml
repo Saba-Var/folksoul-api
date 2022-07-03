@@ -54,8 +54,6 @@ paths:
             type: integer
             minimum: 1
           description: Fetch certain 3 users according to page parameter
-      security:
-        - bearerAuth: []
       tags:
         - Member
       description: Fetch list of all band members
@@ -362,8 +360,6 @@ paths:
   # Band
   /band-about:
     get:
-      security:
-        - bearerAuth: []
       tags:
         - Band
       description: Fetch details about band
