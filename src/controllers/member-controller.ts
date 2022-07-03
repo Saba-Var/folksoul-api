@@ -55,6 +55,9 @@ export const addMember = async (
 
 export const getAllMembers = async (req: RequestQuery, res: Response) => {
   try {
+    if (!req.query.page)
+      return res.status(200).json({ members: await Member.find() })
+
     let page = req.query.page ? +req.query.page : 1
 
     const membersPerPage = 3
