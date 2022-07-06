@@ -55,8 +55,9 @@ export const addMember = async (
 
 export const getAllMembers = async (req: RequestQuery, res: Response) => {
   try {
-    if (!req.query.page)
-      return res.status(200).json({ members: await Member.find() })
+    const allMembers = (await Member.find().select('-__v')).reverse()
+
+    if (!req.query.page) return res.status(200).json({ members: allMembers })
 
     let page = req.query.page ? +req.query.page : 1
 
@@ -67,9 +68,10 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
     const members = req.query.page
       ? await Member.find()
           .select('-__v')
+          .sort({ _id: -1 })
           .skip((page - 1) * membersPerPage)
           .limit(membersPerPage)
-      : await Member.find().select('-__v')
+      : allMembers
 
     if (members.length === 0)
       return res.status(200).json({
