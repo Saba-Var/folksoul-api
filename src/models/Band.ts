@@ -1,9 +1,9 @@
-import { Band } from './types'
+import { BandModel } from './types'
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose
 
-const bandSchema = new Schema<Band>({
+const bandSchema = new Schema<BandModel>({
   about: {
     type: String,
     required: true,
