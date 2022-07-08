@@ -5,6 +5,7 @@
   "main": "./src/server.ts",
   "scripts": {
     "start": "node build/server.js",
+    "user:create": "node build/bin/create-user.js",
     "build:watch": "babel src --out-dir build --extensions .ts --copy-files --watch",
     "build:prod": "babel src --out-dir build --extensions .ts --copy-files --minified",
     "dev": "concurrently \"npm run build:watch\" \"nodemon build/server.js\""
