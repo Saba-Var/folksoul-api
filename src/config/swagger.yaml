@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Inside Joke API
-  description: API documentation of Inside Joke API
+  title: FolkSoul API
+  description: API documentation of FolkSoul API
   version: 0.1.9
 
 components:

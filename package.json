@@ -1,5 +1,5 @@
 {
-  "name": "inside_joke_api",
+  "name": "folksoul_api",
   "version": "1.0.0",
   "description": "",
   "main": "./src/server.ts",
