@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const generateLocalMongoURL = () => {
   const { MONGO_PROTOCOL, MONGO_HOST, MONGO_PORT, MONGO_DATABASE } = process.env
-  return `${MONGO_PROTOCOL}://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`
+  return `${MONGO_PROTOCOL}://${MONGO_HOST}${MONGO_PORT}/${MONGO_DATABASE}`
 }
 
 const generateAtlasMongoURL = () => {
