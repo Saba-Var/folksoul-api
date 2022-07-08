@@ -4,7 +4,7 @@ import YAML from 'yamljs'
 const swaggerMiddleware = () => {
   const options = {
     customCss: '.swagger-ui .topbar { display: none }',
-    customSiteTitle: 'Admin Panel API Specs',
+    customSiteTitle: 'Folk Soul API Specs',
   }
 
   const swaggerDocument = YAML.load('./src/config/swagger.yaml')
