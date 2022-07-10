@@ -12,10 +12,10 @@ components:
       bearerFormat: JWT
 
 servers:
+  - url: https://folksoul-api.sabavar.redberryinternship.ge
+    description: production server
   - url: http://localhost:5000/
     description: local server
-  - url: http://producation.app/api
-    description: production server
 
 # Authentication
 paths:
