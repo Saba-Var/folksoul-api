@@ -66,7 +66,7 @@ cp .env.example .env
 4\. If you want you can also change default configuration of .env file and connect to mongodb
 
 ```sh
-MONGO_DATABASE=adminPanel
+MONGO_DATABASE=folksoul
 MONGO_PROTOCOL=mongodb
 MONGO_HOST=localhost
 MONGO_PORT=27017
