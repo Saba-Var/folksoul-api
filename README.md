@@ -72,7 +72,7 @@ MONGO_HOST=localhost
 MONGO_PORT=27017
 MONGO_CLUSTER=''
 
-SERVER_PORT=5000
+SERVER_PORT=5001
 
 ACCESS_TOKEN_SECRET=secret-text
 
@@ -97,7 +97,7 @@ npm run dev
 npm run user:create
 ```
 
-To see swagger documentation visit [localhost:5000/api-docs/](http://localhost:5000/api-docs/)
+To see swagger documentation visit [localhost:5001/api-docs/](http://localhost:5001/api-docs/)
 
 #
 

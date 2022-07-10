@@ -14,7 +14,7 @@ components:
 servers:
   - url: https://folksoul-api.sabavar.redberryinternship.ge
     description: production server
-  - url: http://localhost:5000/
+  - url: http://localhost:5001/
     description: local server
 
 # Authentication
