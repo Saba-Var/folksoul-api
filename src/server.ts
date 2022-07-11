@@ -11,6 +11,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 
 const server = express()
+server.use(cors())
 
 dotenv.config()
 connectToMongo()
@@ -19,7 +20,6 @@ server.use(express.json())
 server.use('/api-docs', SwaggerUI.serve, swaggerMiddleware())
 
 server.use(authRouter)
-server.use(cors())
 
 server.use(express.static('public'))
 server.use(authMiddleware)
