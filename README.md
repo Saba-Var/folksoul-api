@@ -82,14 +82,15 @@ USER_EMAIL=***
 
 5\. For the first time before run the API run following command:
 
-````sh
+```sh
 npx tsc
+```
 
 6\. after that you can run FolkSoul API from terminal:
 
 ```sh
 npm run dev
-````
+```
 
 7\. To create new user from the terminal run the following command:
 
