@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import Band from 'models/Band'
 import multer from 'multer'
 
-export const getBandAbout = async (_req: {}, res: Response) => {
+export const getBandAbout = async (_, res: Response) => {
   try {
     let existingBand = await Band.find()
     if (existingBand.length === 0)
