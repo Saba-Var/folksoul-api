@@ -1,10 +1,9 @@
-import { multerStorage, multerFilter } from 'utils/multerProperties'
 import { MemberModel } from 'controllers/types'
 import { RequestBody, Response } from 'types'
 import deleteFile from 'utils/deleteFile'
+import storage from 'utils/storage'
 import Member from 'models/Member'
 import mongoose from 'mongoose'
-import multer from 'multer'
 import {
   ChangeMemberBody,
   AddMemberBody,
@@ -148,12 +147,11 @@ export const getOneMember = async (req: RequestBody<Id>, res: Response) => {
   }
 }
 
-const upload = multer({
-  storage: multerStorage('members'),
-  fileFilter: multerFilter(Member, 'ბენდის წევრი'),
-})
-
-export const uploadMemberPhoto = upload.single('image')
+export const uploadMemberPhoto = storage(
+  'members',
+  Member,
+  'ბენდის წევრი'
+).single('image')
 
 export const uploadImage = async (
   req: RequestBody<ImageReqBody>,

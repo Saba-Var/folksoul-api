@@ -1,9 +1,8 @@
-import { multerStorage, multerFilter } from 'utils/multerProperties'
 import { ChangeBand, ImageReqBody } from 'controllers/types'
 import { Response, RequestBody } from 'types'
+import storage from 'utils/storage'
 import mongoose from 'mongoose'
 import Band from 'models/Band'
-import multer from 'multer'
 
 export const getBandAbout = async (_, res: Response) => {
   try {
@@ -43,12 +42,7 @@ export const changeBandAbout = async (
   }
 }
 
-const upload = multer({
-  storage: multerStorage('band'),
-  fileFilter: multerFilter(Band, 'ბენდი'),
-})
-
-export const uploadBandPhoto = upload.single('image')
+export const uploadBandPhoto = storage('band', Band, 'ბენდი').single('image')
 
 export const uploadImage = async (
   req: RequestBody<ImageReqBody>,

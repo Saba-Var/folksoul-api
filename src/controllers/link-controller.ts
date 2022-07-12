@@ -1,9 +1,8 @@
-import { multerStorage, multerFilter } from 'utils/multerProperties'
 import { Response, RequestBody } from 'types'
 import deleteFile from 'utils/deleteFile'
+import storage from 'utils/storage'
 import mongoose from 'mongoose'
 import Link from 'models/Link'
-import multer from 'multer'
 import {
   UploadImageReqBody,
   ChangeLinkReqBody,
@@ -102,12 +101,11 @@ export const changeLink = async (
   }
 }
 
-const upload = multer({
-  storage: multerStorage('social-links'),
-  fileFilter: multerFilter(Link, 'სოციალური ბმული'),
-})
-
-export const uploadLinkPhoto = upload.single('image')
+export const uploadLinkPhoto = storage(
+  'social-links',
+  Link,
+  'სოციალური ბმული'
+).single('image')
 
 export const uploadImage = async (
   req: RequestBody<UploadImageReqBody>,
