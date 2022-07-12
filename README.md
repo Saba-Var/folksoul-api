@@ -16,24 +16,24 @@
 
 ## Prerequisites
 
-- <img style="padding-right:10px;" align="left"  src="readme/assets/NodeJs.png"   height="22"/> <p>_Node JS @12.X and up_</p>
-- <img style="padding-right:10px;" align="left"  src="readme/assets/Npm.png"   height="20"/> <p>_npm @6 and up_</p>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/nodejs.png"   height="22"/> <p>_Node JS @12.X and up_</p>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/npm.png"   height="20"/> <p>_npm @6 and up_</p>
 
 #
 
 ## Tech Stack
 
-- <img style="padding-right:10px;" align="left"  src="readme/assets/NodeJs.png"   height="25"/> <p><a href="https://nodejs.org/en/" target="_blank">[NodeJS @16.15.1]</a> - JavaScript runtime built on Chrome's V8 JavaScript engine<p/>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/nodejs.png"   height="25"/> <p><a href="https://nodejs.org/en/" target="_blank">[NodeJS @16.15.1]</a> - JavaScript runtime built on Chrome's V8 JavaScript engine<p/>
 
-- <img style="padding-right:10px;" align="left"  src="readme/assets/Express.png"   height="25"/> <p><a href="https://expressjs.com/" target="_blank">[Express @4.18.1]</a> - Fast, unopinionated, minimalist web framework for Node.js<p/>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/express.png"   height="25"/> <p><a href="https://expressjs.com/" target="_blank">[Express @4.18.1]</a> - Fast, unopinionated, minimalist web framework for Node.js<p/>
 
-- <img style="padding-right:10px;" align="left"  src="readme/assets/MongoDb.png"   height="25"/> <p><a href="https://www.mongodb.com/" target="_blank">[MongoDB]</a> - Open source NoSQL database management program<p/>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/mongodb.png"   height="25"/> <p><a href="https://www.mongodb.com/" target="_blank">[MongoDB]</a> - Open source NoSQL database management program<p/>
 
-- <img style="padding-right:10px;" align="left"  src="readme/assets/Mongoose.png"   height="25"/> <p><a href="https://mongoosejs.com/" target="_blank">[mongoose @6.3.6]</a> - elegant mongodb object modeling for node.js<p/>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/mongoose.png"   height="25"/> <p><a href="https://mongoosejs.com/" target="_blank">[mongoose @6.3.6]</a> - elegant mongodb object modeling for node.js<p/>
 
-- <img style="padding-right:10px;" align="left"  src="readme/assets/Typescript.png"   height="20"/> <p><a href="https://www.typescriptlang.org/" target="_blank">[Typescript @4.7.4]</a> - JavaScript with syntax for types.TypeScript is JavaScript with syntax for types.<p/>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/typescript.png"   height="20"/> <p><a href="https://www.typescriptlang.org/" target="_blank">[Typescript @4.7.4]</a> - JavaScript with syntax for types.TypeScript is JavaScript with syntax for types.<p/>
 
-- <img style="padding-right:10px;" align="left"  src="readme/assets/Swagger.png"   height="25"/> <p><a href="https://www.npmjs.com/package/swagger-ui-express" target="_blank">[Swagger UI Express @4.4.0]</a> - Serve auto-generated swagger-ui generated API docs from express<p/>
+- <img style="padding-right:10px;" align="left"  src="readme/assets/swagger.png"   height="25"/> <p><a href="https://www.npmjs.com/package/swagger-ui-express" target="_blank">[Swagger UI Express @4.4.0]</a> - Serve auto-generated swagger-ui generated API docs from express<p/>
 
 #
 
