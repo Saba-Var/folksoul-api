@@ -66,7 +66,9 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
       : allMembers
 
     if (members.length === 0) {
-      return res.status(200).json([])
+      return res.status(200).json({
+        members: [],
+      })
     }
 
     const paginationInfo = {
