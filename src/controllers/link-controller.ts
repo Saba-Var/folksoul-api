@@ -1,6 +1,6 @@
-import { multerStorage, multerFilter } from '../util/multerProperties'
+import { multerStorage, multerFilter } from '../utils/multerProperties'
 import { Response, RequestBody } from '../types'
-import deleteFile from '../util/deleteFile'
+import deleteFile from '../utils/deleteFile'
 import Link from '../models/Link'
 import mongoose from 'mongoose'
 import multer from 'multer'

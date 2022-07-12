@@ -1,4 +1,4 @@
-import { multerStorage, multerFilter } from '../util/multerProperties'
+import { multerStorage, multerFilter } from '../utils/multerProperties'
 import { ChangeBand, ImageReqBody } from './types'
 import { Response, RequestBody } from '../types'
 import mongoose from 'mongoose'
