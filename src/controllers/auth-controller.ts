@@ -1,6 +1,6 @@
-import { RequestBody, Response } from '../types'
-import { AuthRequestBody } from './types'
-import User from '../models/User'
+import { AuthRequestBody } from 'controllers/types'
+import { RequestBody, Response } from 'types'
+import User from 'models/User'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 

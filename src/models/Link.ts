@@ -1,4 +1,4 @@
-import { NewLink } from './types'
+import { NewLink } from 'models/types'
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose

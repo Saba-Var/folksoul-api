@@ -1,6 +1,6 @@
+import { ValidateResultReq } from 'middlewares/types'
 import { validationResult } from 'express-validator'
-import { ValidateResultReq } from './types'
-import { Response, Next } from '../types'
+import { Response, Next } from 'types'
 
 const validateRequestSchema = (
   req: ValidateResultReq,

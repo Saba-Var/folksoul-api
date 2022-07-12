@@ -1,17 +1,16 @@
 import { multerStorage, multerFilter } from 'utils/multerProperties'
 import { MemberModel } from 'controllers/types'
 import { RequestBody, Response } from 'types'
-import georgianLan from 'utils/georgianLan'
 import deleteFile from 'utils/deleteFile'
 import Member from 'models/Member'
 import mongoose from 'mongoose'
 import multer from 'multer'
 import {
-  AddMemberBody,
   ChangeMemberBody,
+  AddMemberBody,
   RequestQuery,
-  Id,
   ImageReqBody,
+  Id,
 } from 'controllers/types'
 
 export const addMember = async (
@@ -22,20 +21,11 @@ export const addMember = async (
     const { name, instrument, orbitLength, color, biography } = req.body
 
     const newMemberInfo: any = {
-      name,
-      instrument,
       orbitLength,
-      color,
+      instrument,
       biography,
-    }
-
-    for (const key in newMemberInfo) {
-      if (key !== 'orbitLength' && key !== 'color') {
-        if (!georgianLan(newMemberInfo[key], key))
-          return res.status(400).json({
-            message: `'${key}' მხოლოდ ქართულ ასოებს უნდა შეიცავდეს!`,
-          })
-      }
+      color,
+      name,
     }
 
     const existingMember = await Member.findOne({ name })

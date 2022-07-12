@@ -1,13 +1,13 @@
-import { validateRequestSchema } from '../middlewares/index'
-import bandSchema from '../schemas/band-schema'
-import idSchema from '../schemas/id-schema'
+import { validateRequestSchema } from '/middlewares/index'
+import bandSchema from '/schemas/band-schema'
+import idSchema from '/schemas/id-schema'
 import express from 'express'
 import {
   getBandAbout,
   changeBandAbout,
   uploadImage,
   uploadBandPhoto,
-} from '../controllers/band-controller'
+} from 'controllers/band-controller'
 
 const router = express.Router()
 
