@@ -60,8 +60,6 @@ paths:
       responses:
         '200':
           description: Members list successfully fetched.
-        '404':
-          description: Members list not found.
 
   /add-member:
     post:
