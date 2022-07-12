@@ -5,17 +5,19 @@ import mongoose from 'mongoose'
 import Link from 'models/Link'
 import multer from 'multer'
 import {
-  LinkReqBody,
-  Id,
-  ChangeLinkReqBody,
-  LinkModel,
   UploadImageReqBody,
+  ChangeLinkReqBody,
+  LinkReqBody,
+  LinkModel,
+  Id,
 } from 'controllers/types'
 
 export const getAllLinks = async (_req: {}, res: Response) => {
   try {
     const links = await Link.find().select('-__v')
-    if (links.length === 0) return res.status(200).json([])
+    if (links.length === 0) {
+      return res.status(200).json([])
+    }
 
     return res.status(200).json(links)
   } catch (error: any) {
@@ -29,10 +31,11 @@ export const addLink = async (req: RequestBody<LinkReqBody>, res: Response) => {
 
     const existingLink = await Link.findOne({ linkName })
 
-    if (existingLink)
+    if (existingLink) {
       return res
         .status(409)
         .json({ message: `სოციალური ბმული '${linkName}' უკვე არსებობს` })
+    }
 
     await Link.create({
       linkName,
@@ -53,10 +56,13 @@ export const deleteLink = async (req: RequestBody<Id>, res: Response) => {
 
     const link = await Link.findOne(id)
 
-    if (!link)
+    if (!link) {
       return res.status(404).json({ message: 'სოციალური ბმული ვერ მოიძებნა' })
+    }
 
-    if (link.image) deleteFile(`public/${link.image}`)
+    if (link.image) {
+      deleteFile(`public/${link.image}`)
+    }
 
     await Link.deleteOne(id)
     return res.status(200).json({ message: 'სოციალური ბმული წაიშალა!' })
@@ -76,10 +82,11 @@ export const changeLink = async (
       new mongoose.Types.ObjectId(id)
     ).select('-__v')
 
-    if (!link)
+    if (!link) {
       return res.status(404).json({
         message: 'სოციალური ბმული ვერ მოიძებნა',
       })
+    }
 
     link.linkName = linkName
     link.url = url
@@ -109,11 +116,13 @@ export const uploadImage = async (
   try {
     const currentLink = await Link.findById(req.body.id)
 
-    if (!currentLink)
+    if (!currentLink) {
       return res.status(404).json({ message: 'სოციალური ბმული ვერ მოიძებნა' })
+    }
 
-    if (req.body.fileValidationError)
+    if (req.body.fileValidationError) {
       return res.status(422).json({ message: 'ატვირთეთ მხოლოდ სურათი!' })
+    }
 
     if (req.file) {
       currentLink.image = req.file.path.substring(7)

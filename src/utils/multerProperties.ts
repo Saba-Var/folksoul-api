@@ -33,8 +33,9 @@ export const multerFilter = (model: any, text: string) => {
       }
 
       if (file.mimetype.startsWith('image') && currentDoc) {
-        if (fs.existsSync(`public/${currentDoc?.image}`) && currentDoc.image)
+        if (fs.existsSync(`public/${currentDoc?.image}`) && currentDoc.image) {
           deleteFile(`public/${currentDoc?.image}`)
+        }
 
         cb(null, true)
       }

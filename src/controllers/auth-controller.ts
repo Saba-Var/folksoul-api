@@ -12,8 +12,9 @@ export const authentication = async (
     const { username, password } = req.body
     const currentUser = await User.findOne({ username })
 
-    if (!currentUser)
+    if (!currentUser) {
       return res.status(404).json({ message: 'მომხმარებელი ვერ მოიძებნა' })
+    }
 
     const isMatch = await bcrypt.compare(password, currentUser.password)
 

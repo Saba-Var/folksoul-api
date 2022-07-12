@@ -20,12 +20,14 @@ const createUser = () => {
       let password: string | undefined
 
       if (process.env.USER_PASSWORD && username) {
-        if (process.env.USER_PASSWORD.length < 3)
+        if (process.env.USER_PASSWORD.length < 3) {
           throw new Error('Password should be 3 characters long')
+        }
         password = await bcrypt.hash(process.env.USER_PASSWORD, 12)
 
-        if (username.length < 3)
+        if (username.length < 3) {
           throw new Error('username should be 3 characters long')
+        }
 
         for (let i = 0; i < username.length; i++) {
           if (username[i] === username[i].toUpperCase()) {

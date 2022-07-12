@@ -30,10 +30,11 @@ export const addMember = async (
 
     const existingMember = await Member.findOne({ name })
 
-    if (existingMember)
+    if (existingMember) {
       return res
         .status(409)
         .json({ message: `'${name}' უკვე არის ბენდის წევრი!` })
+    }
 
     await Member.create(newMemberInfo)
 
@@ -47,7 +48,9 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
   try {
     const allMembers = (await Member.find().select('-__v')).reverse()
 
-    if (!req.query.page) return res.status(200).json({ members: allMembers })
+    if (!req.query.page) {
+      return res.status(200).json({ members: allMembers })
+    }
 
     let page = req.query.page ? +req.query.page : 1
 
@@ -63,10 +66,9 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
           .limit(membersPerPage)
       : allMembers
 
-    if (members.length === 0)
-      return res.status(200).json({
-        members: [],
-      })
+    if (members.length === 0) {
+      return res.status(200).json([])
+    }
 
     const paginationInfo = {
       totalMembers: totalMembers,
@@ -83,9 +85,14 @@ export const deleteMember = async (req: RequestBody<Id>, res: Response) => {
     const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
 
     const member = await Member.findOne(id)
-    if (!member) return res.status(404).json({ message: 'წევრი ვერ მოიძებნა' })
 
-    if (member.image) deleteFile(`public/${member.image}`)
+    if (!member) {
+      return res.status(404).json({ message: 'წევრი ვერ მოიძებნა' })
+    }
+
+    if (member.image) {
+      deleteFile(`public/${member.image}`)
+    }
 
     await Member.deleteOne(id)
     return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' })
@@ -105,10 +112,11 @@ export const changeMember = async (
       new mongoose.Types.ObjectId(id)
     ).select('-__v')
 
-    if (!member)
+    if (!member) {
       return res.status(404).json({
         message: 'წევრი ვერ მოიძებნა',
       })
+    }
 
     member.name = name
     member.instrument = instrument
@@ -130,8 +138,9 @@ export const getOneMember = async (req: RequestBody<Id>, res: Response) => {
     const { id } = req.body
     const currentMember = await Member.findById(id).select('-__v')
 
-    if (!currentMember)
+    if (!currentMember) {
       return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
+    }
 
     return res.status(200).json(currentMember)
   } catch (error) {
@@ -152,11 +161,13 @@ export const uploadImage = async (
 ) => {
   try {
     const currentMember = await Member.findById(req.body.id)
-    if (!currentMember)
+    if (!currentMember) {
       return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
+    }
 
-    if (req.body.fileValidationError)
+    if (req.body.fileValidationError) {
       return res.status(422).json({ message: 'ატვირთეთ მხოლოდ სურათი!' })
+    }
 
     if (req.file) {
       currentMember.image = req.file.path.substring(7)

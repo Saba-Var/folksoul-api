@@ -8,10 +8,11 @@ import multer from 'multer'
 export const getBandAbout = async (_, res: Response) => {
   try {
     let existingBand = await Band.find()
-    if (existingBand.length === 0)
+    if (existingBand.length === 0) {
       await Band.create({
         about: 'ბენდის შესახებ ინფორმაცია არ არის დამატებული',
       })
+    }
 
     return res.status(200).json(await Band.find().select('-__v'))
   } catch (error: any) {
@@ -27,7 +28,9 @@ export const changeBandAbout = async (
     const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
     const band = await Band.findOne(id)
 
-    if (!band) return res.status(404).json({ message: 'ბენდი ჯერ არ არსებობს' })
+    if (!band) {
+      return res.status(404).json({ message: 'ბენდი ჯერ არ არსებობს' })
+    }
 
     band.about = req.body.about
     await band.save()
@@ -56,14 +59,19 @@ export const uploadImage = async (
 
     const band = await Band.findOne(id)
 
-    if (!band) return res.status(404).json({ message: 'ბენდი ვერ მოიძებნა' })
+    if (!band) {
+      return res.status(404).json({ message: 'ბენდი ვერ მოიძებნა' })
+    }
 
-    if (req.body.fileValidationError)
+    if (req.body.fileValidationError) {
       return res.status(422).json({ message: 'ატვირთეთ მხოლოდ სურათი!' })
+    }
 
     if (req.file) {
       band.image = req.file.path.substring(7)
+
       await band.save()
+
       return res.status(201).json({
         message: 'ბენდის სურათი წარმატებით აიტვირთა',
       })
