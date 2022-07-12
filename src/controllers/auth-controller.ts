@@ -23,7 +23,8 @@ export const authentication = async (
         { username, password },
         process.env.ACCESS_TOKEN_SECRET
       )
-      return res.status(200).json({ token: accessToken })
+
+      return res.status(201).json({ token: accessToken })
     }
 
     return res

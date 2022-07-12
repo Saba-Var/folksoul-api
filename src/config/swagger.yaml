@@ -60,6 +60,8 @@ paths:
       responses:
         '200':
           description: Members list successfully fetched.
+        '500':
+          description: Internal Server Error.
 
   /add-member:
     post:
@@ -96,10 +98,10 @@ paths:
           description: Member saved successfully.
         '400':
           description: Member already exists.
-        '404':
-          description: Member save failed.
         '422':
           description: Unprocessed Entity
+        '500':
+          description: Internal Server Error.
 
   /get-one-member:
     post:
@@ -261,10 +263,10 @@ paths:
           description: Social link saved successfully.
         '400':
           description: Social link already exists.
-        '404':
-          description: Social link save failed.
         '422':
           description: Unprocessed Entity
+        '500':
+          description: Internal Server Error.
 
   /upload-link-image:
     patch:
@@ -322,8 +324,8 @@ paths:
       responses:
         '201':
           description: Social link details changed successfully.
-        '404':
-          description: Social link not found.
+        '409':
+          description: Social link already exists.
         '422':
           description: Unprocessed Entity
 
@@ -348,10 +350,10 @@ paths:
       responses:
         '200':
           description: Social link deleted successfully.
-        '404':
-          description: Social link not found to delete.
         '422':
           description: Unprocessed Entity
+        '500':
+          description: Internal Server Error.
 
   # Band
   /band-about:
@@ -362,8 +364,8 @@ paths:
       responses:
         '200':
           description: Band details successfully fetched.
-        '404':
-          description: Band not found.
+        '500':
+          description: Internal Server Error.
 
   /upload-band-image:
     patch:
@@ -393,6 +395,8 @@ paths:
           description: Band not found.
         '422':
           description: Unprocessed Entity
+        '500':
+          description: Internal Server Error.
 
   /change-band-about:
     put:
@@ -416,9 +420,11 @@ paths:
               id: '62cd66b2bc4b70708a73125f'
               about: 'ბენდი დაარსდა ...'
       responses:
-        '201':
+        '200':
           description: Band details changed successfully.
         '404':
           description: Band not found.
         '422':
           description: Unprocessed Entity
+        '500':
+          description: Internal Server Error.
