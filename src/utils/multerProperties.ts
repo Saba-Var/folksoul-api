@@ -1,5 +1,5 @@
-import { File, Callback } from './types'
-import deleteFile from './deleteFile'
+import { File, Callback } from 'utils/types'
+import deleteFile from 'utils/deleteFile'
 import multer from 'multer'
 import fs from 'fs'
 

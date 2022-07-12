@@ -1,8 +1,8 @@
-import { multerStorage, multerFilter } from '../utils/multerProperties'
-import { Response, RequestBody } from '../types'
-import deleteFile from '../utils/deleteFile'
-import Link from '../models/Link'
+import { multerStorage, multerFilter } from 'utils/multerProperties'
+import { Response, RequestBody } from 'types'
+import deleteFile from 'utils/deleteFile'
 import mongoose from 'mongoose'
+import Link from 'models/Link'
 import multer from 'multer'
 import {
   LinkReqBody,
@@ -10,7 +10,7 @@ import {
   ChangeLinkReqBody,
   LinkModel,
   UploadImageReqBody,
-} from './types'
+} from 'controllers/types'
 
 export const getAllLinks = async (_req: {}, res: Response) => {
   try {

@@ -1,9 +1,9 @@
-import { multerStorage, multerFilter } from '../utils/multerProperties'
-import { RequestBody, Response } from '../types'
-import georgianLan from '../utils/georgianLan'
-import deleteFile from '../utils/deleteFile'
-import Member from '../models/Member'
-import { MemberModel } from './types'
+import { multerStorage, multerFilter } from 'utils/multerProperties'
+import { MemberModel } from 'controllers/types'
+import { RequestBody, Response } from 'types'
+import georgianLan from 'utils/georgianLan'
+import deleteFile from 'utils/deleteFile'
+import Member from 'models/Member'
 import mongoose from 'mongoose'
 import multer from 'multer'
 import {
@@ -12,7 +12,7 @@ import {
   RequestQuery,
   Id,
   ImageReqBody,
-} from './types'
+} from 'controllers/types'
 
 export const addMember = async (
   req: RequestBody<AddMemberBody>,

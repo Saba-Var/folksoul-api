@@ -1,6 +1,6 @@
-import connectToMongo from '../config/mongo'
-import User from '../models/User'
+import connectToMongo from 'config/mongo'
 import readline from 'readline'
+import User from 'models/User'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 
