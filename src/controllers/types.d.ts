@@ -61,3 +61,9 @@ export type ChangeBand = {
   about: string
   id: string
 }
+
+export type QueryId = {
+  query: {
+    id: string
+  }
+}

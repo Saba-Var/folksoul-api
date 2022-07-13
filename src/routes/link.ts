@@ -3,12 +3,12 @@ import { validateRequestSchema } from 'middlewares/index'
 import idSchema from 'schemas/id-schema'
 import express from 'express'
 import {
-  addLink,
+  uploadLinkPhoto,
   getAllLinks,
+  uploadImage,
   deleteLink,
   changeLink,
-  uploadImage,
-  uploadLinkPhoto,
+  addLink,
 } from 'controllers/link-controller'
 
 const router = express.Router()

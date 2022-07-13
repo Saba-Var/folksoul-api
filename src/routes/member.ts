@@ -18,7 +18,7 @@ router.get('/all-members', getAllMembers)
 
 router.delete('/delete-member', idSchema, validateRequestSchema, deleteMember)
 
-router.post('/get-one-member', idSchema, validateRequestSchema, getOneMember)
+router.get('/get-one-member', idSchema, validateRequestSchema, getOneMember)
 
 router.post(
   '/add-member',

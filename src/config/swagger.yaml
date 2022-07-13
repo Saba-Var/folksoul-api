@@ -63,6 +63,28 @@ paths:
         '500':
           description: Internal Server Error.
 
+  /get-one-member:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Member
+      description: Fetch details of certain band member
+      parameters:
+        - in: query
+          required: true
+          name: id
+          schema:
+            type: string
+          description: Fetch data of certain band member
+      responses:
+        '200':
+          description: Member details successfully fetched.
+        '404':
+          description: Member not found.
+        '422':
+          description: Unprocessed Entity
+
   /add-member:
     post:
       security:
@@ -102,32 +124,6 @@ paths:
           description: Unprocessed Entity
         '500':
           description: Internal Server Error.
-
-  /get-one-member:
-    post:
-      security:
-        - bearerAuth: []
-      tags:
-        - Member
-      description: Fetch details about one band member
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-            example:
-              id: '62cd66b2bc4b70708a73125f'
-      responses:
-        '200':
-          description: Member details successfully fetched.
-        '404':
-          description: Member not found.
-        '422':
-          description: Unprocessed Entity
 
   /upload-member-image:
     patch:

@@ -1,4 +1,4 @@
-import { MemberModel } from 'controllers/types'
+import { MemberModel, QueryId } from 'controllers/types'
 import { RequestBody, Response } from 'types'
 import deleteFile from 'utils/deleteFile'
 import storage from 'utils/storage'
@@ -134,9 +134,9 @@ export const changeMember = async (
   }
 }
 
-export const getOneMember = async (req: RequestBody<Id>, res: Response) => {
+export const getOneMember = async (req: QueryId, res: Response) => {
   try {
-    const { id } = req.body
+    const { id } = req.query
     const currentMember = await Member.findById(id).select('-__v')
 
     if (!currentMember) {
