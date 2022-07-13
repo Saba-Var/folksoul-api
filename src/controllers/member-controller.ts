@@ -51,7 +51,7 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
       return res.status(200).json({ members: allMembers })
     }
 
-    let page = req.query.page ? +req.query.page : 1
+    let page = +req.query.page
 
     const membersPerPage = 3
 
@@ -72,7 +72,7 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
     }
 
     const paginationInfo = {
-      totalMembers: totalMembers,
+      totalMembers,
     }
 
     return res.status(200).json({ members, paginationInfo })

@@ -4,7 +4,7 @@ import User from 'models/User'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 
-const readLine = readline.createInterface({
+const rl: any = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 })
@@ -26,7 +26,7 @@ const createUser = () => {
         password = await bcrypt.hash(process.env.USER_PASSWORD, 12)
 
         if (username.length < 3) {
-          throw new Error('username should be 3 characters long')
+          throw new Error('Username should be 3 characters long')
         }
 
         for (let i = 0; i < username.length; i++) {
@@ -43,20 +43,28 @@ const createUser = () => {
         password,
       })
 
-      console.log('user created successfully')
+      console.log(`\nUser created successfully`)
     } catch (error: any) {
-      console.log(error.message)
+      console.log(`\n${error.message}`)
     }
 
     await mongoose.connection.close()
   })()
 }
 
-readLine.question(`username: `, (username) => {
+let hideInput = false
+
+rl.question(`Username: `, async (username: string) => {
   process.env.USER_USERNAME = username
-  readLine.question(`password: `, (password) => {
+  hideInput = true
+  rl.question(`Password: `, async (password: string) => {
     process.env.USER_PASSWORD = password
-    readLine.close()
+    rl.close()
     createUser()
   })
 })
+
+rl._writeToOutput = async function _writeToOutput(stringToWrite: string) {
+  if (hideInput) rl.output.write('\x1B[2K\x1B[200D' + 'password: ')
+  else rl.output.write(stringToWrite)
+}
