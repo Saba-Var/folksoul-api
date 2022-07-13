@@ -51,19 +51,15 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
       return res.status(200).json({ members: allMembers })
     }
 
-    let page = +req.query.page
-
     const membersPerPage = 3
 
     const totalMembers = await Member.find().countDocuments()
 
-    const members = req.query.page
-      ? await Member.find()
-          .select('-__v')
-          .sort({ _id: -1 })
-          .skip((page - 1) * membersPerPage)
-          .limit(membersPerPage)
-      : allMembers
+    const members = await Member.find()
+      .select('-__v')
+      .sort({ _id: -1 })
+      .skip((+req.query.page - 1) * membersPerPage)
+      .limit(membersPerPage)
 
     if (members.length === 0) {
       return res.status(200).json({
@@ -119,11 +115,11 @@ export const changeMember = async (
       })
     }
 
-    member.name = name
-    member.instrument = instrument
-    member.color = color
     member.orbitLength = orbitLength
+    member.instrument = instrument
     member.biography = biography
+    member.color = color
+    member.name = name
 
     await member.save()
     return res.status(200).json({ message: 'წევრის ინფორმაცია შეიცვალა!' })
