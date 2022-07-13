@@ -67,11 +67,7 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
       })
     }
 
-    const paginationInfo = {
-      totalMembers,
-    }
-
-    return res.status(200).json({ members, paginationInfo })
+    return res.status(200).json({ members, paginationInfo: { totalMembers } })
   } catch (error: any) {
     return res.status(500).json({ message: error.message })
   }
