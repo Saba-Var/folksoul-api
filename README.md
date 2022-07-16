@@ -98,7 +98,7 @@ npm run dev
 npm run user:create
 ```
 
-To see swagger documentation visit [localhost:5001/api-docs/](http://localhost:5001/api-docs/)
+To see swagger documentation visit [localhost:5001](http://localhost:5001)
 
 #
 

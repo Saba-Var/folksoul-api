@@ -17,7 +17,7 @@ dotenv.config()
 connectToMongo()
 
 server.use(express.json())
-server.use('/api-docs', SwaggerUI.serve, swaggerMiddleware())
+server.use('/', SwaggerUI.serve, swaggerMiddleware())
 
 server.use(authRouter)
 
