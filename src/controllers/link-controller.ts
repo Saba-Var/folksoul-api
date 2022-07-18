@@ -8,6 +8,7 @@ import {
   ChangeLinkReqBody,
   LinkReqBody,
   LinkModel,
+  QueryId,
   Id,
 } from 'controllers/types'
 
@@ -49,9 +50,9 @@ export const addLink = async (req: RequestBody<LinkReqBody>, res: Response) => {
   }
 }
 
-export const deleteLink = async (req: RequestBody<Id>, res: Response) => {
+export const deleteLink = async (req: QueryId, res: Response) => {
   try {
-    const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
+    const id = { _id: new mongoose.Types.ObjectId(req.query.id) }
 
     const link = await Link.findOne(id)
 

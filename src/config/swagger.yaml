@@ -197,22 +197,16 @@ paths:
 
   /delete-member:
     delete:
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
       security:
         - bearerAuth: []
       tags:
         - Member
       description: Delete one member from the band
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-            example:
-              id: '62cd66b2bc4b70708a73125f'
       responses:
         '200':
           description: Member deleted successfully.
@@ -327,22 +321,16 @@ paths:
 
   /delete-link:
     delete:
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
       security:
         - bearerAuth: []
       tags:
         - Social Link
       description: Delete certain social link
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-            example:
-              id: '62cd66b2bc4b70708a73125f'
       responses:
         '200':
           description: Social link deleted successfully.

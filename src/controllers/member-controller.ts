@@ -9,7 +9,6 @@ import {
   AddMemberBody,
   RequestQuery,
   ImageReqBody,
-  Id,
 } from 'controllers/types'
 
 export const addMember = async (
@@ -73,9 +72,9 @@ export const getAllMembers = async (req: RequestQuery, res: Response) => {
   }
 }
 
-export const deleteMember = async (req: RequestBody<Id>, res: Response) => {
+export const deleteMember = async (req: QueryId, res: Response) => {
   try {
-    const id = { _id: new mongoose.Types.ObjectId(req.body.id) }
+    const id = { _id: new mongoose.Types.ObjectId(req.query.id) }
 
     const member = await Member.findOne(id)
 
@@ -91,6 +90,21 @@ export const deleteMember = async (req: RequestBody<Id>, res: Response) => {
     return res.status(200).json({ message: 'ბენდის წევრი წაიშალა!' })
   } catch (error: any) {
     return res.status(500).json({ message: 'მიუთითეთ ვალიდური id-ის ფორმატი' })
+  }
+}
+
+export const getOneMember = async (req: QueryId, res: Response) => {
+  try {
+    const { id } = req.query
+    const currentMember = await Member.findById(id).select('-__v')
+
+    if (!currentMember) {
+      return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
+    }
+
+    return res.status(200).json(currentMember)
+  } catch (error) {
+    return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' })
   }
 }
 
@@ -123,21 +137,6 @@ export const changeMember = async (
     return res
       .status(409)
       .json({ message: `'${req.body.name}' უკვე არის ბენდის წევრი!` })
-  }
-}
-
-export const getOneMember = async (req: QueryId, res: Response) => {
-  try {
-    const { id } = req.query
-    const currentMember = await Member.findById(id).select('-__v')
-
-    if (!currentMember) {
-      return res.status(404).json({ message: 'ბენდის წევრი ვერ მოიძებნა!' })
-    }
-
-    return res.status(200).json(currentMember)
-  } catch (error) {
-    return res.status(422).json({ message: 'წევრის id არ არის ვალიდური' })
   }
 }
 
