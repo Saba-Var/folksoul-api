@@ -9,7 +9,6 @@ import {
   LinkReqBody,
   LinkModel,
   QueryId,
-  Id,
 } from 'controllers/types'
 
 export const getAllLinks = async (_req: {}, res: Response) => {
