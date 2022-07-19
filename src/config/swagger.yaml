@@ -41,8 +41,26 @@ paths:
       responses:
         '201':
           description: JWT token generated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                example:
+                  token: 'JWT token'
         '404':
           description: Credentials are incorrect.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'მომხმარებელი ვერ მოიძებნა'
 
   # Member
   /all-members:
@@ -60,6 +78,39 @@ paths:
       responses:
         '200':
           description: Members list successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  members:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        name:
+                          type: string
+                        instrument:
+                          type: string
+                        orbitLength:
+                          type: integer
+                        color:
+                          type: string
+                        biography:
+                          type: string
+                        image:
+                          type: string
+                example:
+                  members:
+                    - _id: 62d69cff3bcf9b29fe0cc1fa
+                      name: ნიკა
+                      instrument: სალამური
+                      orbitLength: 269
+                      color: '#000000'
+                      biography: 'დაიბადა ...'
+                      image: 'images/members/image.png'
         '500':
           description: Internal Server Error.
 
@@ -80,10 +131,55 @@ paths:
       responses:
         '200':
           description: Member details successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  name:
+                    type: string
+                  instrument:
+                    type: string
+                  orbitLength:
+                    type: number
+                  color:
+                    type: string
+                  biography:
+                    type: string
+                  image:
+                    type: string
+                example:
+                  _id: '62d5bc4a3bcf9b29fe0cc104'
+                  name: 'ვეფხია'
+                  instrument: 'დუდუკი'
+                  orbitLength: 100
+                  color: '#000000'
+                  biography: 'დაიბადა ...'
+                  image: 'images/members/image.png'
         '404':
           description: Member not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდის წევრი ვერ მოიძებნა!'
         '422':
           description: Unprocessed Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'წევრის id არ არის ვალიდური'
 
   /add-member:
     post:
@@ -118,8 +214,26 @@ paths:
       responses:
         '201':
           description: Member saved successfully.
-        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდს წევრი წარმატებით დაემატა!'
+        '409':
           description: Member already exists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "'წევრის სახელი' უკვე არის ბენდის წევრი!"
         '422':
           description: Unprocessed Entity
         '500':
@@ -149,8 +263,26 @@ paths:
       responses:
         '201':
           description: Member avatar photo uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდის წევრის ავატარი წარმატებით აიტვირთა!'
         '404':
           description: Member not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდის წევრი ვერ მოიძებნა!'
         '422':
           description: Unprocessed Entity
 
@@ -188,10 +320,39 @@ paths:
               color: '#000000'
               biography: 'დაიბადა ...'
       responses:
-        '201':
+        '200':
           description: Member details changed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'წევრის ინფორმაცია შეიცვალა!'
         '404':
           description: Not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'წევრი ვერ მოიძებნა'
+        '409':
+          description: Member with this name already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "'წევრის სახელი' უკვე არის ბენდის წევრი!"
         '422':
           description: Unprocessed Entity
 
@@ -210,10 +371,30 @@ paths:
       responses:
         '200':
           description: Member deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდის წევრი წაიშალა!'
         '404':
           description: Member not found to delete.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'წევრი ვერ მოიძებნა'
         '422':
           description: Unprocessed Entity
+        '500':
+          description: Server Error
 
   # Social Link
   /all-links:
@@ -224,8 +405,28 @@ paths:
       responses:
         '200':
           description: Social Links successfully fetched.
-        '404':
-          description: Social Links list not found.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    linkName:
+                      type: string
+                    url:
+                      type: string
+                    image:
+                      type: integer
+                example:
+                  - _id: 62d5832f3bcf9b29fe0cbf61
+                    linkName: github
+                    url: github.com
+                    image: images/social-links/link.png
+        '500':
+          description: Internal Server Error
 
   /add-social-link:
     post:
@@ -251,8 +452,26 @@ paths:
       responses:
         '201':
           description: Social link saved successfully.
-        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'სოციალური ბმული წარმატებით შეინახა!'
+        '409':
           description: Social link already exists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "სოციალური ბმული 'სახელი' უკვე არსებობს"
         '422':
           description: Unprocessed Entity
         '500':
@@ -282,8 +501,26 @@ paths:
       responses:
         '201':
           description: Social link photo uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'სოციალური ბმულის სურათი წარმატებით აიტვირთა'
         '404':
           description: Social link not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'სოციალური ბმული ვერ მოიძებნა'
         '422':
           description: Unprocessed Entity
 
@@ -312,10 +549,28 @@ paths:
               linkName: 'amazon'
               url: 'amazon.com'
       responses:
-        '201':
+        '200':
           description: Social link details changed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'სოციალური ბმულის ინფორმაცია შეიცვალა'
         '409':
           description: Social link already exists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "'ლინკის სახელი' უკვე დამატებულია"
         '422':
           description: Unprocessed Entity
 
@@ -334,6 +589,26 @@ paths:
       responses:
         '200':
           description: Social link deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'სოციალური ბმული წაიშალა!'
+        '404':
+          description: Unprocessed Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'სოციალური ბმული ვერ მოიძებნა'
         '422':
           description: Unprocessed Entity
         '500':
@@ -348,6 +623,24 @@ paths:
       responses:
         '200':
           description: Band details successfully fetched.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                    about:
+                      type: string
+                    image:
+                      type: string
+                example:
+                  - _id: 62d5832f3bcf9b29fe0cbf61
+                    about: ბენდი დაარსდა
+                    url: band.com
+                    image: images/band/link.png
         '500':
           description: Internal Server Error.
 
@@ -375,8 +668,26 @@ paths:
       responses:
         '201':
           description: Band photo uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდის სურათი წარმატებით აიტვირთა'
         '404':
           description: Band not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდი ვერ მოიძებნა'
         '422':
           description: Unprocessed Entity
         '500':
@@ -406,8 +717,26 @@ paths:
       responses:
         '200':
           description: Band details changed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდის ინფორმაცია წარმატებით შეიცვალა!'
         '404':
           description: Band not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: 'ბენდი ჯერ არ არსებობს'
         '422':
           description: Unprocessed Entity
         '500':
