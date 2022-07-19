@@ -1,6 +1,7 @@
 import { MemberModel, QueryId } from 'controllers/types'
 import { RequestBody, Response } from 'types'
 import deleteFile from 'utils/deleteFile'
+import { NewMember } from 'models/types'
 import storage from 'utils/storage'
 import Member from 'models/Member'
 import mongoose from 'mongoose'
@@ -18,7 +19,7 @@ export const addMember = async (
   try {
     const { name, instrument, orbitLength, color, biography } = req.body
 
-    const newMemberInfo: any = {
+    const newMemberInfo: NewMember = {
       orbitLength,
       instrument,
       biography,

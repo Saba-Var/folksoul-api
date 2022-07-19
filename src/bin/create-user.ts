@@ -1,13 +1,9 @@
 import connectToMongo from 'config/mongo'
-import readline from 'readline'
+import { PromptInputs } from 'bin/types'
 import User from 'models/User'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
-
-const rl: any = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
+import prompt from 'prompt'
 
 const createUser = () => {
   dotenv.config()
@@ -21,18 +17,18 @@ const createUser = () => {
 
       if (process.env.USER_PASSWORD && username) {
         if (process.env.USER_PASSWORD.length < 3) {
-          throw new Error('Password should be 3 characters long')
+          throw new Error('პაროლი უნდა შედგებოდეს მინიმუმ 3 ასოსგან')
         }
         password = await bcrypt.hash(process.env.USER_PASSWORD, 12)
 
         if (username.length < 3) {
-          throw new Error('Username should be 3 characters long')
+          throw new Error('სახელი უნდა შედგებოდეს მინიმუმ 3 ასოსგან')
         }
 
         for (let i = 0; i < username.length; i++) {
           if (username[i] === username[i].toUpperCase()) {
             throw new Error(
-              'Username should include only lowercase letters and symbols'
+              '\nსახელი უნდა შეიცავდეს დაბალი რეგისტრის ასოებს და სიმბოლოებს'
             )
           }
         }
@@ -43,31 +39,40 @@ const createUser = () => {
         password,
       })
 
-      console.log(`\nUser created successfully`)
+      console.log(`\nმომხმარებელი წარმატებით დარეგისტრირდა`)
     } catch (error: any) {
-      console.log(`\n${error.message}`)
+      if (error.message.includes('E11000')) {
+        console.log('ამ სახელით მომხმარებელი უკვე არსებობს')
+      } else {
+        console.log(`${error.message}`)
+      }
     }
 
     await mongoose.connection.close()
   })()
 }
 
-let hideInput = false
-
-rl.question(`Username: `, async (username: string) => {
-  process.env.USER_USERNAME = username
-  hideInput = true
-  rl.question(`Password: `, async (password: string) => {
-    process.env.USER_PASSWORD = password
-    rl.close()
-    createUser()
-  })
-})
-
-rl._writeToOutput = async function _writeToOutput(stringToWrite: string) {
-  if (hideInput) {
-    rl.output.write('\x1B[2K\x1B[200D' + 'password: ')
-  } else {
-    rl.output.write(stringToWrite)
-  }
+const schema = {
+  properties: {
+    Username: { description: 'შეიყვანეთ თქვენი სახელი', required: true },
+    Password: {
+      required: true,
+      hidden: true,
+      description: 'შეიყვანეთ თქვენი პაროლი',
+      replace: '*',
+    },
+  },
 }
+
+prompt.colors = false
+
+prompt.message = ''
+
+prompt.get(schema, (_, result: PromptInputs) => {
+  const { Username, Password } = result
+
+  process.env.USER_USERNAME = Username
+  process.env.USER_PASSWORD = Password
+
+  createUser()
+})

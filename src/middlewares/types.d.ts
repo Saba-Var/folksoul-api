@@ -17,3 +17,16 @@ export type AuthReqBody = {
     authorization: string
   }
 }
+
+export type AuthBody = {
+  url: string
+  headers: {
+    authorization: string
+  }
+}
+
+export type ValidateWords = {
+  instrument: string
+  name: string
+  biography: string
+}

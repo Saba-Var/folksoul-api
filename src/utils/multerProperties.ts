@@ -1,9 +1,9 @@
-import { File, Callback } from 'utils/types'
+import { StorageFunction, FilterReq, Callback, Model, File } from 'utils/types'
 import deleteFile from 'utils/deleteFile'
 import multer from 'multer'
 import fs from 'fs'
 
-export const multerStorage = (location: string) => {
+export const multerStorage: StorageFunction = (location: string) => {
   const storage = multer.diskStorage({
     destination: (_req, _file, cb) => {
       cb(null, `public/images/${location}`)
@@ -18,18 +18,18 @@ export const multerStorage = (location: string) => {
   return storage
 }
 
-export const multerFilter = (model: any, text: string) => {
-  const filter = async (req: any, file: File, cb: Callback) => {
+export const multerFilter = (model: Model, text: string) => {
+  const filter = async (req: FilterReq, file: File, cb: Callback) => {
     try {
       if (req.body.id.length !== 24) {
         req.body.fileValidationError = 'id უნდა შეიცავდეს 24 სიმბოლოს'
-        return cb(null, false, req.fileValidationError)
+        return cb(null, false, req.body.fileValidationError)
       }
 
       const currentDoc = await model.findById(req.body.id)
       if (!currentDoc) {
         req.body.fileValidationError = `${text} ვერ მოიძებნა`
-        return cb(null, false, req.fileValidationError)
+        return cb(null, false, req.body.fileValidationError)
       }
 
       if (file.mimetype.startsWith('image') && currentDoc) {
@@ -42,11 +42,12 @@ export const multerFilter = (model: any, text: string) => {
 
       if (!file.mimetype.startsWith('image')) {
         req.body.fileValidationError = 'ატვირთეთ მხოლოდ სურათი!'
-        return cb(null, false, req.fileValidationError)
+        return cb(null, false, req.body.fileValidationError)
       }
     } catch (error: any) {
       return (req.body.fileValidationError = 'სურათი ვერ აიტვირთა!')
     }
   }
+
   return filter
 }

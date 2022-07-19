@@ -1,7 +1,8 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
+import { AuthBody } from 'middlewares/types'
 import { Response, Next } from 'types'
 
-const authMiddleware = (req: any, res: Response, next: Next) => {
+const authMiddleware = (req: AuthBody, res: Response, next: Next) => {
   try {
     if (
       req.url.includes('/band-about') ||
