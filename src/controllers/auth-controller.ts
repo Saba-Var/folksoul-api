@@ -27,9 +27,7 @@ export const authentication = async (
       return res.status(201).json({ token: accessToken })
     }
 
-    return res
-      .status(404)
-      .json({ message: 'მომხმარებლის მონაცემები არასწორია!' })
+    return res.status(404).json({ message: 'მომხმარებელი ვერ მოიძებნა' })
   } catch (error: any) {
     return res.status(404).json(error.message)
   }

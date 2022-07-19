@@ -3,7 +3,7 @@ import { Response, RequestBody } from 'types'
 import mongoose from 'mongoose'
 import { Band } from 'models'
 
-export const getBandAbout = async (_, res: Response) => {
+export const getBandAbout = async (_: {}, res: Response) => {
   try {
     let existingBand = await Band.find()
     if (existingBand.length === 0) {

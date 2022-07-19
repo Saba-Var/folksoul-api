@@ -10,7 +10,7 @@ import {
   QueryId,
 } from 'controllers/types'
 
-export const getAllLinks = async (_, res: Response) => {
+export const getAllLinks = async (_: {}, res: Response) => {
   try {
     const links = await Link.find().select('-__v')
     if (links.length === 0) {
