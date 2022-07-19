@@ -5,7 +5,7 @@ import fs from 'fs'
 
 export const multerStorage: StorageFunction = (location: string) => {
   const storage = multer.diskStorage({
-    destination: (_, _, cb) => {
+    destination: (_req, _res, cb) => {
       cb(null, `public/images/${location}`)
     },
 
