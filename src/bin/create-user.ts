@@ -65,6 +65,9 @@ rl.question(`Username: `, async (username: string) => {
 })
 
 rl._writeToOutput = async function _writeToOutput(stringToWrite: string) {
-  if (hideInput) rl.output.write('\x1B[2K\x1B[200D' + 'password: ')
-  else rl.output.write(stringToWrite)
+  if (hideInput) {
+    rl.output.write('\x1B[2K\x1B[200D' + 'password: ')
+  } else {
+    rl.output.write(stringToWrite)
+  }
 }

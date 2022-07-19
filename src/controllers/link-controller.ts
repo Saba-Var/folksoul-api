@@ -11,7 +11,7 @@ import {
   QueryId,
 } from 'controllers/types'
 
-export const getAllLinks = async (_req: {}, res: Response) => {
+export const getAllLinks = async (_, res: Response) => {
   try {
     const links = await Link.find().select('-__v')
     if (links.length === 0) {
