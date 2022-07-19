@@ -1,5 +1,6 @@
 import { NewMember, BandModel, NewLink } from 'models/types'
-import e from 'express'
+import express from 'express'
+import multer from 'multer'
 
 type BandModelType = mongoose.Model<BandModel>
 
@@ -13,6 +14,12 @@ export type StorageFunction = (location: string) => multer.StorageEngine
 
 export type Model = MemberModel | BandModelType | LinkModel
 
-export type FilterReq = e.Request<Record<string, {}>>
+export type FilterReq = express.Request<Record<string, {}>>
 
 export type File = { mimetype: string }
+
+export type Storage = (
+  storageName: string,
+  model: Model,
+  title: string
+) => multer.Multer

@@ -1,8 +1,7 @@
 import { ChangeBand, ImageReqBody } from 'controllers/types'
 import { Response, RequestBody } from 'types'
-import storage from 'utils/storage'
 import mongoose from 'mongoose'
-import Band from 'models/Band'
+import { Band } from 'models'
 
 export const getBandAbout = async (_, res: Response) => {
   try {
@@ -41,8 +40,6 @@ export const changeBandAbout = async (
     return res.status(500).json({ error: error.message })
   }
 }
-
-export const uploadBandPhoto = storage('band', Band, 'ბენდი').single('image')
 
 export const uploadImage = async (
   req: RequestBody<ImageReqBody>,

@@ -1,9 +1,9 @@
 import { validateRequestSchema, validateGeorgianLan } from 'middlewares/index'
 import memberDetailsSchema from 'schemas/member-details-schema'
+import { uploadMemberPhoto } from 'utils/storage'
 import idSchema from 'schemas/id-schema'
 import express from 'express'
 import {
-  uploadMemberPhoto,
   getAllMembers,
   deleteMember,
   changeMember,

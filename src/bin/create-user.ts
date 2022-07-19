@@ -1,6 +1,6 @@
 import connectToMongo from 'config/mongo'
 import { PromptInputs } from 'bin/types'
-import User from 'models/User'
+import { User } from 'models'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 import prompt from 'prompt'

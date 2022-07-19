@@ -1,4 +1,4 @@
-import { NewLink, NewMember } from '../models/types'
+import { NewLink, NewMember } from 'models/types'
 
 export type UploadImageReqBody = { id: string; fileValidationError?: string }
 

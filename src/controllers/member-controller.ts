@@ -2,9 +2,8 @@ import { MemberModel, QueryId } from 'controllers/types'
 import { RequestBody, Response } from 'types'
 import deleteFile from 'utils/deleteFile'
 import { NewMember } from 'models/types'
-import storage from 'utils/storage'
-import Member from 'models/Member'
 import mongoose from 'mongoose'
+import { Member } from 'models'
 import {
   ChangeMemberBody,
   AddMemberBody,
@@ -140,12 +139,6 @@ export const changeMember = async (
       .json({ message: `'${req.body.name}' უკვე არის ბენდის წევრი!` })
   }
 }
-
-export const uploadMemberPhoto = storage(
-  'members',
-  Member,
-  'ბენდის წევრი'
-).single('image')
 
 export const uploadImage = async (
   req: RequestBody<ImageReqBody>,

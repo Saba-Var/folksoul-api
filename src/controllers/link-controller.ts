@@ -1,8 +1,7 @@
 import { Response, RequestBody } from 'types'
 import deleteFile from 'utils/deleteFile'
-import storage from 'utils/storage'
 import mongoose from 'mongoose'
-import Link from 'models/Link'
+import { Link } from 'models'
 import {
   UploadImageReqBody,
   ChangeLinkReqBody,
@@ -100,12 +99,6 @@ export const changeLink = async (
       .json({ message: `'${req.body.linkName}' უკვე დამატებულია!` })
   }
 }
-
-export const uploadLinkPhoto = storage(
-  'social-links',
-  Link,
-  'სოციალური ბმული'
-).single('image')
 
 export const uploadImage = async (
   req: RequestBody<UploadImageReqBody>,
