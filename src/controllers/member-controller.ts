@@ -1,7 +1,7 @@
-import { MemberModel, QueryId } from 'controllers/types'
+import { MemberModel, QueryId } from 'controllers'
 import { RequestBody, Response } from 'types'
-import deleteFile from 'utils/deleteFile'
-import { NewMember } from 'models/types'
+import { deleteFile } from 'utils'
+import { NewMember } from 'models'
 import mongoose from 'mongoose'
 import { Member } from 'models'
 import {
@@ -9,7 +9,7 @@ import {
   AddMemberBody,
   RequestQuery,
   ImageReqBody,
-} from 'controllers/types'
+} from 'controllers'
 
 export const addMember = async (
   req: RequestBody<AddMemberBody>,
@@ -140,7 +140,7 @@ export const changeMember = async (
   }
 }
 
-export const uploadImage = async (
+export const uploadMemberImage = async (
   req: RequestBody<ImageReqBody>,
   res: Response
 ) => {

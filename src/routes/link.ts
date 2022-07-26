@@ -1,7 +1,7 @@
-import socialLinkSchema from 'schemas/social-link-schema'
-import { validateRequestSchema } from 'middlewares/index'
-import { uploadLinkPhoto } from 'utils/storage'
-import idSchema from 'schemas/id-schema'
+import { validateRequestSchema } from 'middlewares'
+import { socialLinkSchema } from 'schemas'
+import { uploadLinkPhoto } from 'utils'
+import { idSchema } from 'schemas'
 import express from 'express'
 import {
   getAllLinks,
@@ -9,7 +9,7 @@ import {
   deleteLink,
   changeLink,
   addLink,
-} from 'controllers/link-controller'
+} from 'controllers'
 
 const router = express.Router()
 

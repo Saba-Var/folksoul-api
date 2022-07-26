@@ -1,4 +1,4 @@
-import { ChangeBand, ImageReqBody } from 'controllers/types'
+import { ChangeBand, ImageReqBody } from 'controllers'
 import { Response, RequestBody } from 'types'
 import mongoose from 'mongoose'
 import { Band } from 'models'
@@ -41,7 +41,7 @@ export const changeBandAbout = async (
   }
 }
 
-export const uploadImage = async (
+export const uploadBandImage = async (
   req: RequestBody<ImageReqBody>,
   res: Response
 ) => {

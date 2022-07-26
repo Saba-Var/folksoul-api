@@ -1,4 +1,4 @@
-import { BandModel } from 'models/types'
+import { BandModel } from 'models'
 import mongoose from 'mongoose'
 
 const { Schema } = mongoose

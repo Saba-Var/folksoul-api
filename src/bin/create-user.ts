@@ -1,5 +1,5 @@
-import connectToMongo from 'config/mongo'
-import { PromptInputs } from 'bin/types'
+import { connectToMongo } from 'config'
+import { PromptInputs } from 'bin'
 import { User } from 'models'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'

@@ -1,6 +1,6 @@
-import { multerFilter, multerStorage } from 'utils/multerProperties'
+import { multerFilter, multerStorage } from 'utils'
 import { Member, Band, Link } from 'models'
-import { Storage } from 'utils/types'
+import { Storage } from 'utils'
 import multer from 'multer'
 
 const storage: Storage = (storageName, model, title) => {

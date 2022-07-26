@@ -1,6 +1,6 @@
-import { authentication } from 'controllers/auth-controller'
-import { validateRequestSchema } from 'middlewares/index'
-import authSchema from 'schemas/auth-schema'
+import { validateRequestSchema } from 'middlewares'
+import { authentication } from 'controllers'
+import { authSchema } from 'schemas'
 import express from 'express'
 
 const router = express.Router()

@@ -1,16 +1,15 @@
-import { validateRequestSchema, validateGeorgianLan } from 'middlewares/index'
-import memberDetailsSchema from 'schemas/member-details-schema'
-import { uploadMemberPhoto } from 'utils/storage'
-import idSchema from 'schemas/id-schema'
+import { validateRequestSchema, validateGeorgianLan } from 'middlewares'
+import { memberDetailsSchema, idSchema } from 'schemas'
+import { uploadMemberPhoto } from 'utils'
 import express from 'express'
 import {
+  uploadMemberImage,
   getAllMembers,
   deleteMember,
   changeMember,
   getOneMember,
-  uploadImage,
   addMember,
-} from 'controllers/member-controller'
+} from 'controllers'
 
 const router = express.Router()
 
@@ -41,7 +40,7 @@ router.patch(
   uploadMemberPhoto,
   idSchema,
   validateRequestSchema,
-  uploadImage
+  uploadMemberImage
 )
 
 export default router

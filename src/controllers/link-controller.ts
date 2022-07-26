@@ -1,5 +1,5 @@
 import { Response, RequestBody } from 'types'
-import deleteFile from 'utils/deleteFile'
+import { deleteFile } from 'utils'
 import mongoose from 'mongoose'
 import { Link } from 'models'
 import {
@@ -8,7 +8,7 @@ import {
   LinkReqBody,
   LinkModel,
   QueryId,
-} from 'controllers/types'
+} from 'controllers'
 
 export const getAllLinks = async (_: {}, res: Response) => {
   try {

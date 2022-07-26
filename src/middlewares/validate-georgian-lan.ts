@@ -1,7 +1,7 @@
 import { Response, Next, RequestBody } from 'types'
-import { AddMemberBody } from 'controllers/types'
-import { ValidateWords } from 'middlewares/types'
-import georgianLan from 'utils/georgianLan'
+import { AddMemberBody } from 'controllers'
+import { ValidateWords } from 'middlewares'
+import { georgianLan } from 'utils'
 
 const validateGeorgianLan = (
   req: RequestBody<AddMemberBody>,

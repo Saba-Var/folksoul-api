@@ -1,7 +1,13 @@
-import { StorageFunction, FilterReq, Callback, Model, File } from 'utils/types'
-import deleteFile from 'utils/deleteFile'
 import multer from 'multer'
 import fs from 'fs'
+import {
+  StorageFunction,
+  deleteFile,
+  FilterReq,
+  Callback,
+  Model,
+  File,
+} from 'utils'
 
 export const multerStorage: StorageFunction = (location: string) => {
   const storage = multer.diskStorage({

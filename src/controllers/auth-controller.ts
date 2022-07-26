@@ -1,4 +1,4 @@
-import { AuthRequestBody } from 'controllers/types'
+import { AuthRequestBody } from 'controllers'
 import { RequestBody, Response } from 'types'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
