@@ -1,18 +1,24 @@
 <h1>FolkSoul API</h1>
 <p>Using the FolkSoul API you can add / modify / read / delete members, social links and band information</p>
 
-Production url: https://folksoul-api.sabavar.redberryinternship.ge/
-
 #
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
-- [Prerequisites](#prerequisites)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Resources](#resources)
+- [](#)
+  - [Table of Contents](#table-of-contents)
+- [](#-1)
+  - [Prerequisites](#prerequisites)
+- [](#-2)
+  - [Tech Stack](#tech-stack)
+- [](#-3)
+  - [Getting Started](#getting-started)
+- [](#-4)
+  - [Project Structure](#project-structure)
+- [](#-5)
+  - [Resources](#resources)
+
+#
 
 ## Prerequisites
 
@@ -42,7 +48,7 @@ Production url: https://folksoul-api.sabavar.redberryinternship.ge/
 1\. First of all you need to clone repository from github:
 
 ```sh
-git clone https://github.com/RedberryInternship/folksoul-api-Var-saba.git
+git clone https://github.com/Saba-Var/folksoul-api.git
 ```
 
 2\. Next step requires install all the dependencies
@@ -100,7 +106,6 @@ npm run user:create
 
 To see swagger documentation visit [localhost:5001/api-docs](http://localhost:5001/api-docs)
 
-#
 
 #
 
